@@ -1,0 +1,20 @@
+export interface InvoiceData {
+	businessName: string | undefined,
+    businessAddressLine1: string | undefined,
+    businessAddressLine2: string | undefined,
+    billingCompanyName: string | undefined,
+    billingCompanyAddressLine1: string | undefined,
+    billingCompanyAddressLine2: string | undefined,
+    billingCompanyRegistrationNumber: number | undefined,
+    invoiceNumber: string | undefined,
+    invoiceDate: Date,
+    supplyStartDate: Date,
+	supplyEndDate: Date,
+    logoImageUrl: string | undefined,
+    signatureImageUrl: string | undefined,
+    dueDate: Date,
+    accountName: string | undefined,
+    accountNumber: number | undefined,
+    sortCode: number | undefined,
+    bankName: string | undefined
+}
