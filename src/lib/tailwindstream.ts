@@ -368,9 +368,9 @@ export const handlebarsTemplate = {
 	</div>
 
 	<div class="mb-12 flex justify-end">
-		<table id="total-due" class="w-52 rounded-sm outline outline-1 outline-indigo-600">
+		<table id="total-due" class="w-52 rounded-sm outline outline-1 outline-{{totalBorderColour}}-600">
 			<thead>
-				<tr class="border-b border-indigo-300">
+				<tr class="border-b border-{{totalBorderColour}}-300">
 					<th class="w-24 p-1 text-left font-customHeading font-medium">Total Due:</th>
 					<th class="p-1 text-left indent-2"> £1830</th>
 				</tr>

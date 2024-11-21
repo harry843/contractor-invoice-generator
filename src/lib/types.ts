@@ -7,14 +7,15 @@ export interface InvoiceData {
     billingCompanyAddressLine2: string | undefined,
     billingCompanyRegistrationNumber: number | undefined,
     invoiceNumber: string | undefined,
-    invoiceDate: Date,
-    supplyStartDate: Date,
-	supplyEndDate: Date,
+    invoiceDate: Date | string | undefined,
+    supplyStartDate: Date | string | undefined,
+	supplyEndDate: Date | string | undefined,
     logoImageUrl: string | undefined,
     signatureImageUrl: string | undefined,
-    dueDate: Date,
+    dueDate: Date | string | undefined,
     accountName: string | undefined,
     accountNumber: number | undefined,
     sortCode: number | undefined,
-    bankName: string | undefined
+    bankName: string | undefined,
+    totalBorderColour: string
 }

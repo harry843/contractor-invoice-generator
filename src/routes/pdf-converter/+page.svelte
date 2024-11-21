@@ -3,6 +3,8 @@
     import type { PayloadInput } from "$lib/tailwindstream";
     import type { InvoiceData } from "$lib/types";
 	import Input from "../../components/Input.svelte";
+    import { formatDateToCustomString } from "$lib/utils";
+	import Select from "../../components/Select.svelte";
 
     let data: InvoiceData = {
     businessName: '',
@@ -13,16 +15,17 @@
     billingCompanyAddressLine2: '',
     billingCompanyRegistrationNumber: undefined,
     invoiceNumber: '',
-    invoiceDate: new Date(),
-    supplyStartDate: new Date(),
-    supplyEndDate: new Date(),
-    dueDate: new Date(),
+    invoiceDate: undefined,
+    supplyStartDate: undefined,
+    supplyEndDate: undefined,
+    dueDate: undefined,
     accountName: '',
     accountNumber: undefined,
     sortCode: undefined,
     bankName: '',
     logoImageUrl: '',
-    signatureImageUrl: ''
+    signatureImageUrl: '',
+    totalBorderColour: 'indigo'
     };
 
     let payload: PayloadInput = {
@@ -44,7 +47,7 @@
     let billingCompanyName = ''
     let billingCompanyAddressLine1 = ''
     let billingCompanyAddressLine2 = ''
-    let billingCompanyRegistrationNumber = undefined
+    let billingCompanyRegistrationNumber: number | undefined = undefined
 
     let invoiceNumber = ''
     let invoiceDate = new Date()
@@ -53,12 +56,14 @@
 
     let dueDate = new Date()
     let accountName = ''
-    let accountNumber = undefined
-    let sortCode = undefined
+    let accountNumber: number | undefined = undefined
+    let sortCode: number | undefined = undefined
     let bankName = ''
 
     let logoImageUrl = ''
     let signatureImageUrl = ''
+
+    let totalBorderColour = 'indigo'
 
     /* Check validity of input data */
 
@@ -104,11 +109,11 @@ if (Object.keys(errors).length > 0) {
       data.billingCompanyRegistrationNumber = billingCompanyRegistrationNumber;
 
       data.invoiceNumber = invoiceNumber;
-      data.invoiceDate = invoiceDate;
-      data.supplyStartDate = supplyStartDate;
-      data.supplyEndDate = supplyEndDate;
+      data.invoiceDate = formatDateToCustomString(invoiceDate);
+      data.supplyStartDate = formatDateToCustomString(supplyStartDate);
+      data.supplyEndDate = formatDateToCustomString(supplyEndDate);
 
-      data.dueDate = dueDate;
+      data.dueDate = formatDateToCustomString(dueDate);
       data.accountName = accountName;
       data.accountNumber = accountNumber;
       data.sortCode = sortCode;
@@ -116,6 +121,7 @@ if (Object.keys(errors).length > 0) {
 
       data.logoImageUrl = logoImageUrl;
       data.signatureImageUrl = signatureImageUrl;
+      data.totalBorderColour = totalBorderColour;
 
       isLoading = true;
       btnText = "Downloading...";
@@ -257,7 +263,34 @@ label="Supply End Date *"
 bind:value={supplyEndDate}
 />
 
-<!-- Due Date -->
+<!-- Invoice Total -->
+
+    <Select
+    label="Total Border Colour"
+    bind:value={totalBorderColour}>
+    <option value="indigo">Indigo</option>
+    <option value="violet">Violet</option>
+    <option value="purple">Purple</option>
+    <option value="teal">Teal</option>
+    <option value="cyan">Cyan</option>
+    <option value="sky">Sky</option>
+    <option value="blue">Blue</option>
+    <option value="fuchsia">Fuchsia</option>
+    <option value="red">Red</option>
+    <option value="rose">Rose</option>
+    <option value="pink">Pink</option>
+    <option value="orange">Orange</option>
+    <option value="amber">Amber</option>
+    <option value="yellow">Yellow</option>
+    <option value="lime">Lime</option>
+    <option value="green">Green</option>
+    <option value="emerald">Emerald</option>
+    <option value="slate">Slate</option>
+    <option value="grey">Grey</option>
+    <option value="zinc">Zinc</option>
+    <option value="stone">Stone</option>
+</Select>
+
 <Input
 type="date"
 label="Payment Due Date *"
