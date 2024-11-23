@@ -19,3 +19,23 @@ export interface InvoiceData {
     bankName: string | undefined,
     totalBorderColour: string
 }
+
+export interface ValidationErrors {
+    businessName: string | null,
+    businessAddressLine1: string | null,
+    businessAddressLine2: string | null,
+    billingCompanyName: string | null,
+    billingCompanyAddressLine1: string | null,
+    billingCompanyAddressLine2: string | null,
+    invoiceNumber: string | null,
+    invoiceDate: string | null,
+    supplyStartDate: string | null,
+	supplyEndDate: string | null,
+    logoImageUrl: string | null,
+    signatureImageUrl: string | null,
+    dueDate: string | null,
+    accountName: string | null,
+    accountNumber: string | null,
+    sortCode: string | null,
+    bankName: string | null,
+}
