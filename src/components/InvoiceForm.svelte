@@ -3,7 +3,7 @@
 	import Select from './Select.svelte';
 	import Button from './Button.svelte';
 	import { requestDownload, downloadDocument, downloadToBrowser } from "$lib/tailwindstream";
-	import { formatDateToCustomString } from '$lib/utils';
+	import { formatDateToCustomString, isValidUrl } from '$lib/utils';
 	import type { ValidationErrors } from '$lib/types';
 	
 	export let data;
@@ -100,7 +100,7 @@
 	}
 
 	const validate = () => {
-		const errors = {};
+		const errors : ValidationErrors = {};
 		if (!businessName) errors.businessName = 'Business Name is required';
 		if (!businessAddressLine1) errors.businessAddressLine1 = 'Address is required';
 		if (!businessAddressLine2) errors.businessAddressLine2 = 'Address is required';
@@ -119,11 +119,18 @@
 		if (dueDate === '') errors.dueDate = `Due Date is required`;
 		if (dueDate !== '' && new Date(dueDate) > new Date(new Date().getFullYear() + 1, 11, 31)) errors.dueDate = `Value must be today or earlier: ${formatDateToCustomString(new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0])}`;
 		if (dueDate !== '' && new Date(dueDate) < new Date(new Date().getFullYear() - 5, 0, 1)) errors.dueDate = `Value must be later than ${formatDateToCustomString(new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0])}`;
+		if (!accountName) errors.accountName = 'Account Name is required';
+		if (accountNumber === undefined) errors.accountNumber = 'Account Number is required';
+		if (sortCode === undefined) errors.sortCode = 'Sort Code is required';
+		if (sortCode != undefined && !/^\d{6}$/.test(sortCode.toString())) errors.sortCode = 'Sort Code must have exactly 6 digits';
+		if (logoImageUrl != '' && !isValidUrl(logoImageUrl)) errors.logoImageUrl = 'Value is not a valid URL';
+		if (signatureImageUrl != '' && !isValidUrl(signatureImageUrl)) errors.signatureImageUrl = 'Value is not a valid URL';
 
 		return errors;
 	};
 
 	const mutateAsync = async () => {
+
 		validationErrors = validate();
 
 		// If a validationError is found, stop execution
@@ -136,10 +143,10 @@
 }
 
 		    // Preprocess dates with formatDateToCustomString
-		const formattedInvoiceDate = formatDateToCustomString(invoiceDate);
-    	const formattedSupplyStartDate = formatDateToCustomString(supplyStartDate);
-    	const formattedSupplyEndDate = formatDateToCustomString(supplyEndDate);
-    	const formattedDueDate = formatDateToCustomString(dueDate);
+			invoiceDate = formatDateToCustomString(invoiceDate);
+    	supplyStartDate = formatDateToCustomString(supplyStartDate);
+    	supplyEndDate = formatDateToCustomString(supplyEndDate);
+    	dueDate = formatDateToCustomString(dueDate);
 
 		Object.assign(data, {
 			businessName,
@@ -149,10 +156,10 @@
 			billingCompanyAddressLine1,
 			billingCompanyAddressLine2,
 			invoiceNumber,
-			formattedInvoiceDate,
-			formattedSupplyStartDate,
-			formattedSupplyEndDate,
-			formattedDueDate,
+			invoiceDate,
+			supplyStartDate,
+			supplyEndDate,
+			dueDate,
 			accountName,
 			accountNumber,
 			sortCode,
@@ -161,6 +168,8 @@
 			signatureImageUrl,
 			totalBorderColour,
 		});
+
+		console.log(data)
 
 		isLoading = true;
 		btnText = 'Downloading...';
@@ -196,7 +205,7 @@
 	};
 </script>
 
-<div class="mx-10 p-4">
+<form name="InvoiceGenerator" id="InvoiceGenerator" class="mx-10 p-4">
 		<div class="grid grid-cols-3">
 			<Input type="text" label="Business Name *" bind:value={businessName} error={validationErrors.businessName} />
 			<Input type="text" label="Business Address Line 1 *" bind:value={businessAddressLine1} error={validationErrors.businessAddressLine1} />
@@ -318,12 +327,14 @@ error={validationErrors.dueDate}
 type="text"
 label="Account Name *"
 bind:value={accountName}
+error={validationErrors.accountName}
 />
 
 <Input
 type="number"
 label="Account Number *"
 bind:value={accountNumber}
+error={validationErrors.accountNumber}
 />
 
 <Input
@@ -338,6 +349,8 @@ on:input={(e) => {
     }
     sortCode = e.target.value; // Update value
   }}
+  error={validationErrors.sortCode}
+
 />
 
 <Input
@@ -355,6 +368,8 @@ label="Logo Image URL"
 placeholder = 'Public Image URL'
 required={false}
 bind:value={logoImageUrl}
+error={validationErrors.logoImageUrl}
+
 />
 
 <Input
@@ -363,6 +378,7 @@ label="Signature Image URL"
 placeholder = 'Public Image URL'
 required={false}
 bind:value={signatureImageUrl}
+error={validationErrors.signatureImageUrl}
 />
 
 		</div>
@@ -379,4 +395,4 @@ bind:value={signatureImageUrl}
 <span class="block text-xs font-normal text-red-500">Please fill out the required fields</span>
 {/if}
 
-</div>
+</form>
