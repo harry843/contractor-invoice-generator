@@ -98,7 +98,7 @@ export function generateHtmlTableRows(rows: invoiceRow[], currency: string) {
         <tr>
           <td class="border border-gray-300 p-2">${row.description}</td>
           <td class="border border-gray-300 p-2">${row.hours}</td>
-          <td class="border border-gray-300 p-2">${row.rate}</td>
+          <td class="border border-gray-300 p-2">${currency}${row.rate}</td>
           <td class="border border-gray-300 p-2">${currency}${row.total}</td>
         </tr>
       `
