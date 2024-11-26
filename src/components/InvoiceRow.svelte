@@ -1,11 +1,11 @@
 <script lang="ts">
     import Button from "./Button.svelte";
     import Input from "./Input.svelte";
-    import type { rowValidationErrors, invoiceRow } from "$lib/types";
-    import { invoiceItems } from "$lib/store"; // Import the Svelte store
+    import type { rowValidationErrors } from "$lib/types";
+    import { invoiceItems } from "$lib/store";
   
     export let error;
-  
+
     // Validation errors structure for multiple rows
     let ValidationErrors: rowValidationErrors[] = [];
   
@@ -38,6 +38,7 @@
         };
         if (!row.description) errors.description = 'Description is required';
         if (!row.hours) errors.hours = 'Hours are required';
+        if (row.hours && row.hours.toString().length > 5) errors.hours = 'Max 5 characters'; 
         if (!row.rate) errors.rate = 'Rate is required';
         return errors;
       });
@@ -77,7 +78,7 @@
     };
 </script>
 
-<div class="space-y-2 mx-10 p-4">
+<div class="space-y-2 py-4">
   {#each rows as row, index}
     <div class="flex items-center gap-4">
       <Input
@@ -92,6 +93,7 @@
         step="0.1"
         label="Hours"
         placeholder="e.g. 40"
+        style="max-w-24"
         bind:value={row.hours}
         error={ValidationErrors[index]?.hours}
       />
@@ -100,10 +102,11 @@
         label="Price per Hour"
         step="0.01"
         placeholder="e.g £35"
+        style="max-w-24"
         bind:value={row.rate}
         error={ValidationErrors[index]?.rate}
       />
-      <div class="flex-1 text-right font-bold">
+      <div class="flex-1 text-right text-sm font-bold pt-2">
         {row.total.toFixed(2)}
       </div>
     </div>

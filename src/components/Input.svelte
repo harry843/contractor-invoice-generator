@@ -7,6 +7,7 @@
     export let min;
     export let max;
     export let required = true;
+    export let style = '';
 
     // $: isEmpty = required && (value == '' || value == null || value == undefined ) ? true : false
   
@@ -23,11 +24,15 @@
   
   <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
       {#if label}
-          <span class="block">{label}</span>
+          <span class="block">{label}
+            {#if !required}
+             <span class="px-1 text-xs font-normal">(optional)</span>
+            {/if}
+          </span>
       {/if}
       {#if required}
       <input
-      class="block p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      class="block px-2 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {style}"
       class:error
           {type}
           {placeholder}
@@ -41,7 +46,7 @@
       />
       {:else}
       <input
-      class="block p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      class="block px-2 py-1 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 {style}"
       class:error
           {type}
           {placeholder}

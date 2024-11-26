@@ -8,3 +8,5 @@ export const invoiceItems = writable([
         total: 0,
       },
   ]);
+
+  export const currentStep = writable(1);

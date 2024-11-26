@@ -81,7 +81,7 @@ export async function downloadDocument(
         await new Promise((resolve) => setTimeout(resolve, interval));
         return await downloadAttempt();
       } else {
-        throw new Error("Maximum download attempts exceeded.");
+        throw new Error("Maximum download attempts exceeded. Try again later.");
       }
     } catch (error) {
       return { error: error instanceof Error ? error.message : String(error) };

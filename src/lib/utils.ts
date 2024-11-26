@@ -92,9 +92,17 @@ export function filterRowsArray(arr: invoiceRow[]) {
 }
 
 export function generateHtmlTableRows(rows: invoiceRow[], currency: string) {
-  return rows
+  // Preprocess rows to fix rate and total to 2 decimal places
+  const formattedRows = rows.map(row => ({
+    ...row,
+    rate: Number(row.rate).toFixed(2),
+    total: Number(row.total).toFixed(2),
+  }));
+
+  return formattedRows
     .map(
-      (row) => `
+      (row) => 
+        `
         <tr>
           <td class="border border-gray-300 p-2">${row.description}</td>
           <td class="border border-gray-300 p-2">${row.hours}</td>

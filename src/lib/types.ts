@@ -13,7 +13,7 @@ export interface InvoiceData {
     logoImageUrl: string | undefined,
     signatureImageUrl: string | undefined,
     currency: string,
-    grandTotal: number,
+    grandTotal: number | string,
     dueDate: Date | string | undefined,
     accountName: string | undefined,
     accountNumber: number | undefined,

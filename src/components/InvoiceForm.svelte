@@ -7,10 +7,21 @@
 	import type { invoiceRow, ValidationErrors } from '$lib/types';
 	import InvoiceRow from './InvoiceRow.svelte';
 	import LoadingSpinner from './LoadingSpinner.svelte';
-	import { invoiceItems } from '$lib/store';
+	import { invoiceItems, currentStep } from '$lib/store';
+	import Tick from './Tick.svelte';
+	import Step from './Step.svelte';
+	import Stepper from './Stepper.svelte';
 	
 	export let data;
 	export let payload;
+
+	// Navigation functions
+	const goToNext = () => currentStep.update(n => Math.min(n + 1, 5));
+    const goToPrevious = () => currentStep.update(n => Math.max(n - 1, 1));
+
+  	// Fetch current step for the UI
+  	let step = 1;
+  	currentStep.subscribe(value => step = value);
 	
 	let isLoading = false;
 	let error: any = null;
@@ -61,19 +72,9 @@
 
 	let totalBorderColour = 'indigo';
 	let currency = '£';
-	let grandTotal = 0;
+	let grandTotal: number | string = 0;
 
 	let invoiceHtmlString = undefined;
-
-	// Define rows with reactive data
-	// let rows: invoiceRow[] = [
-    //   {
-    //     description: '',
-    //     hours: null,
-    //     rate: null,
-    //     total: 0,
-    //   }
-    // ];
 
 	function validateFutureDate(inputDate, updateValue) {
 		const today = new Date().toISOString().split('T')[0];
@@ -156,7 +157,7 @@
 		for (const [key, value] of Object.entries(validationErrors)) {
     if (value !== null) {
         // If a non-null value is found, set the key as the error message
-        error = `Validation error in: ${key}`;
+        error = 'Please fill out the required fields';
         return; // Stop further execution
     }
 }
@@ -171,7 +172,7 @@
 		invoiceHtmlString = generateHtmlTableRows(filterRowsArray($invoiceItems), currency)
 
 		// Calculate grand total owed
-		grandTotal = $invoiceItems.reduce((sum, row) => sum + (row.total || 0), 0)
+		grandTotal = $invoiceItems.reduce((sum, row) => sum + (row.total || 0), 0).toFixed(2)
 
 		Object.assign(data, {
 			businessName,
@@ -225,7 +226,7 @@
 				}
 			}
 		} catch (err) {
-			error = err instanceof Error ? err.message : 'An unexpected error occurred.';
+			error = err instanceof Error ? err.message : 'An unexpected error occurred, please try again later.';
 		} finally {
 			isLoading = false;
 			btnText = `Download .${payload.output}`;
@@ -233,17 +234,24 @@
 	};
 </script>
 
-<InvoiceRow error={validationErrors.invoiceRow} />
+	<!-- Progress step tracker -->
+	<Stepper {step}/>
+	
 
-<form name="InvoiceGenerator" id="InvoiceGenerator" class="mx-10 p-4">
-		<div class="grid grid-cols-3">
-			<Input type="text" label="Business Name *" bind:value={businessName} error={validationErrors.businessName} />
-			<Input type="text" label="Business Address Line 1 *" bind:value={businessAddressLine1} error={validationErrors.businessAddressLine1} />
-			<Input type="text" label="Business Address Line 2 *" bind:value={businessAddressLine2} error={validationErrors.businessAddressLine2} />
-			<!-- Billed To Details -->
+<div class="flex flex-row">
+<form class="px-[2.5%] w-1/2">
+<!-- 1. Company details -->
+{#if step == 1}
+<h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Company Details</h1>
+<h2 class="font-medium text-base pb-2.5">Your Company</h2>
+<Input type="text" label="Business Name" placeholder="Your Company Name" bind:value={businessName} error={validationErrors.businessName} />
+<Input type="text" label="Business Address Line 1" bind:value={businessAddressLine1} error={validationErrors.businessAddressLine1} />
+<Input type="text" label="Business Address Line 2" bind:value={businessAddressLine2} error={validationErrors.businessAddressLine2} />
+
+<h2 class="font-medium text-base py-2">Billed To</h2>
 <Input
 type="text"
-label="Billing Company Name *"
+label="Company Name"
 placeholder = "Billing Company Name"
 bind:value={billingCompanyName}
 error={validationErrors.billingCompanyName}
@@ -251,41 +259,33 @@ error={validationErrors.billingCompanyName}
 
 <Input
 type="text"
-label="Billing Company Address Line 1 *"
-placeholder = "Address Line 1"
+label="Company Address Line 1"
 bind:value={billingCompanyAddressLine1}
 error={validationErrors.billingCompanyAddressLine1}
 />
 
 <Input
 type="text"
-label="Billing Company Address Line 2 *"
-placeholder = "Address Line 2"
+label="Company Address Line 2"
 bind:value={billingCompanyAddressLine2}
 error={validationErrors.billingCompanyAddressLine2}
 />
 
 <Input
 type="number"
-label="Billing Company Registration Number"
+label="Company Registration Number"
 required = {false}
 bind:value={billingCompanyRegistrationNumber}
 
 />
+{/if}
 
-<!-- Invoice Information -->
-<Input
-type="text"
-label="Invoice Number *"
-placeholder = "HK12345"
-bind:value={invoiceNumber}
-error={validationErrors.invoiceNumber}
-
-/>
-
-<Input
+<!-- 2. Invoice details -->
+ {#if step == 2}
+ <h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Invoice Details</h1>
+ <Input
 type="date"
-label="Invoice Date *"
+label="Invoice Date"
 max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
 min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
 bind:value={invoiceDate}
@@ -294,8 +294,36 @@ error={validationErrors.invoiceDate}
 />
 
 <Input
+type="text"
+label="Invoice Number"
+placeholder = "HK12345"
+bind:value={invoiceNumber}
+error={validationErrors.invoiceNumber}
+
+/>
+
+<Select
+label="Currency"
+bind:value={currency}>
+<option value="£">Pounds (£)</option>
+<option value="$">Dollars ($)</option>
+<option value="€">Euros (€)</option>        
+</Select>
+
+
+<Input
 type="date"
-label="Supply Start Date *"
+label="Payment Due Date"
+max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
+min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
+bind:value={dueDate}
+on:change={(e) => handleDateChange(e, (val) => (dueDate = val))}
+error={validationErrors.dueDate}
+/>
+
+<Input
+type="date"
+label="Supply Start Date"
 max={new Date().toISOString().split('T')[0]}
 bind:value={supplyStartDate}
 on:change={(e) => handleFutureDate(e, (val) => (supplyStartDate = val))}
@@ -304,7 +332,7 @@ error={validationErrors.supplyStartDate}
 
 <Input
 type="date"
-label="Supply End Date *"
+label="Supply End Date"
 max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
 min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
 bind:value={supplyEndDate}
@@ -313,71 +341,36 @@ error={validationErrors.supplyEndDate}
 
 />
 
-<!-- Invoice Total -->
-<Select
-label="Currency"
-bind:value={currency}>
-<option value="£">Pounds (£)</option>
-<option value="$">Dollars ($)</option>
-<option value="€">Euros (€)</option>        
+{/if}
 
-</Select>
+<!-- 3. Invoice items --> 
+{#if step == 3}
+<h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Invoice Items</h1>
 
-    <Select
-    label="Total Border Colour"
-    bind:value={totalBorderColour}>
-    <option value="indigo">Indigo</option>
-    <option value="violet">Violet</option>
-    <option value="purple">Purple</option>
-    <option value="teal">Teal</option>
-    <option value="cyan">Cyan</option>
-    <option value="sky">Sky</option>
-    <option value="blue">Blue</option>
-    <option value="fuchsia">Fuchsia</option>
-    <option value="red">Red</option>
-    <option value="rose">Rose</option>
-    <option value="pink">Pink</option>
-    <option value="orange">Orange</option>
-    <option value="amber">Amber</option>
-    <option value="yellow">Yellow</option>
-    <option value="lime">Lime</option>
-    <option value="green">Green</option>
-    <option value="emerald">Emerald</option>
-    <option value="slate">Slate</option>
-    <option value="grey">Grey</option>
-    <option value="zinc">Zinc</option>
-    <option value="stone">Stone</option>
-</Select>
+<InvoiceRow error={validationErrors.invoiceRow} />
+{/if}
 
-<Input
-type="date"
-label="Payment Due Date *"
-max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
-min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
-bind:value={dueDate}
-on:change={(e) => handleDateChange(e, (val) => (dueDate = val))}
-error={validationErrors.dueDate}
+<!-- 4. Payment Information -->
+ {#if step == 4}
+ <h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Payment Information</h1>
 
-/>
-
-<!-- Payment Information -->
 <Input
 type="text"
-label="Account Name *"
+label="Account Name"
 bind:value={accountName}
 error={validationErrors.accountName}
 />
 
 <Input
 type="number"
-label="Account Number *"
+label="Account Number"
 bind:value={accountNumber}
 error={validationErrors.accountNumber}
 />
 
 <Input
 type="number"
-label="Sort Code *"
+label="Sort Code"
 max={999999}
 bind:value={sortCode}
 on:input={(e) => {
@@ -399,7 +392,12 @@ required={false}
 bind:value={bankName}
 />
 
-<!-- Image URLs -->
+{/if}
+
+<!-- 5. Finishing touches -->
+ {#if step == 5}
+ <h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Finishing Touches</h1>
+
 <Input
 type="text"
 label="Logo Image URL"
@@ -419,7 +417,32 @@ bind:value={signatureImageUrl}
 error={validationErrors.signatureImageUrl}
 />
 
-		</div>
+<Select
+label="Total Due Border Colour"
+bind:value={totalBorderColour}>
+<option value="indigo">Indigo</option>
+<option value="violet">Violet</option>
+<option value="purple">Purple</option>
+<option value="teal">Teal</option>
+<option value="cyan">Cyan</option>
+<option value="sky">Sky</option>
+<option value="blue">Blue</option>
+<option value="fuchsia">Fuchsia</option>
+<option value="red">Red</option>
+<option value="rose">Rose</option>
+<option value="pink">Pink</option>
+<option value="orange">Orange</option>
+<option value="amber">Amber</option>
+<option value="yellow">Yellow</option>
+<option value="lime">Lime</option>
+<option value="green">Green</option>
+<option value="emerald">Emerald</option>
+<option value="slate">Slate</option>
+<option value="grey">Grey</option>
+<option value="zinc">Zinc</option>
+<option value="stone">Stone</option>
+</Select>
+
 
 		<Button
 		class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 flex items-center justify-center space-x-2"
@@ -436,11 +459,21 @@ error={validationErrors.signatureImageUrl}
 		{/if}
 
 	</Button>
-	
-	
+	{/if}
 
 {#if error}
-<span class="block text-xs font-normal text-red-500">Please fill out the required fields</span>
+<span class="block text-xs font-normal text-red-500">{error}</span>
 {/if}
 
+<!-- Navigation Buttons -->
+<div class="flex justify-between mt-6">
+    {#if step > 1}
+      <button on:click={goToPrevious} class="px-4 py-2 bg-gray-300 rounded-md">Back</button>
+    {/if}
+    {#if step < 5}
+      <button on:click={goToNext} class="px-4 py-2 bg-blue-500 text-white rounded-md">Next</button>
+    {/if}
+  </div>
 </form>
+<div class="w-1/2 bg-black"></div>
+</div>
