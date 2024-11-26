@@ -339,30 +339,7 @@ export const handlebarsTemplate = {
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td class="border border-gray-300 p-2">Learner 1-to-1 Support</td>
-					<td class="border border-gray-300 p-2">20</td>
-					<td class="border border-gray-300 p-2">£30</td>
-					<td class="border border-gray-300 p-2">£600</td>
-				</tr>
-				<tr>
-					<td class="border border-gray-300 p-2">Assignment Marking</td>
-					<td class="border border-gray-300 p-2">34.5</td>
-					<td class="border border-gray-300 p-2">£30</td>
-					<td class="border border-gray-300 p-2">£1035</td>
-				</tr>
-				<tr>
-					<td class="border border-gray-300 p-2">Content Review</td>
-					<td class="border border-gray-300 p-2">6</td>
-					<td class="border border-gray-300 p-2">£30</td>
-					<td class="border border-gray-300 p-2">£180</td>
-				</tr>
-				<tr>
-					<td class="border border-gray-300 p-2">Meetings</td>
-					<td class="border border-gray-300 p-2">0.5</td>
-					<td class="border border-gray-300 p-2">£30</td>
-					<td class="border border-gray-300 p-2">£15</td>
-				</tr>
+				{{{invoiceHtmlString}}}
 			</tbody>
 		</table>
 	</div>
@@ -372,7 +349,7 @@ export const handlebarsTemplate = {
 			<thead>
 				<tr class="border-b border-{{totalBorderColour}}-300">
 					<th class="w-24 p-1 text-left font-customHeading font-medium">Total Due:</th>
-					<th class="p-1 text-left indent-2"> £1830</th>
+					<th class="p-1 text-left indent-2">{{currency}}{{grandTotal}}</th>
 				</tr>
 				<tr class="">
 					<th class="w-24 p-1 text-left font-customHeading font-medium">Due Date:</th>

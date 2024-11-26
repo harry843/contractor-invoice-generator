@@ -1,3 +1,5 @@
+import type { invoiceRow } from "./types";
+
 export function formatDateToCustomString(input: Date | string): string {
     let date: Date;
 
@@ -83,4 +85,23 @@ function validateFutureDate(inputDate, updateValue) {
   '(\\?[;&a-z\\d%_.~+=-]*)?'+ // validate query string
   '(\\#[-a-z\\d_]*)?$','i'); // validate fragment locator
 return !!urlPattern.test(urlString);
+}
+
+export function filterRowsArray(arr: invoiceRow[]) {
+  return arr.filter(item => !(item.description === '' && item.hours === null && item.rate === null && item.total === 0));
+}
+
+export function generateHtmlTableRows(rows: invoiceRow[], currency: string) {
+  return rows
+    .map(
+      (row) => `
+        <tr>
+          <td class="border border-gray-300 p-2">${row.description}</td>
+          <td class="border border-gray-300 p-2">${row.hours}</td>
+          <td class="border border-gray-300 p-2">${row.rate}</td>
+          <td class="border border-gray-300 p-2">${currency}${row.total}</td>
+        </tr>
+      `
+    )
+    .join('');
 }

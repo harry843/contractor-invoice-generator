@@ -16,6 +16,8 @@
     invoiceDate: new Date().toISOString().split('T')[0],
     supplyStartDate: '',
     supplyEndDate: '',
+    currency: '',
+    grandTotal: 0,
     dueDate: '',
     accountName: '',
     accountNumber: undefined,
@@ -24,6 +26,7 @@
     logoImageUrl: '',
     signatureImageUrl: '',
     totalBorderColour: 'indigo',
+    invoiceHtmlString: undefined,
     };
 
     let payload: PayloadInput = {

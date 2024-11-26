@@ -3,8 +3,11 @@
 	import Select from './Select.svelte';
 	import Button from './Button.svelte';
 	import { requestDownload, downloadDocument, downloadToBrowser } from "$lib/tailwindstream";
-	import { formatDateToCustomString, isValidUrl } from '$lib/utils';
-	import type { ValidationErrors } from '$lib/types';
+	import { formatDateToCustomString, isValidUrl, filterRowsArray, generateHtmlTableRows } from '$lib/utils';
+	import type { invoiceRow, ValidationErrors } from '$lib/types';
+	import InvoiceRow from './InvoiceRow.svelte';
+	import LoadingSpinner from './LoadingSpinner.svelte';
+	import { invoiceItems } from '$lib/store';
 	
 	export let data;
 	export let payload;
@@ -29,6 +32,7 @@
 		accountNumber: null,
 		sortCode: null,
 		bankName: null,
+		invoiceRow: null,
 	};
 	let btnText = `Download .${payload.output}`;
 
@@ -56,6 +60,20 @@
 	let signatureImageUrl = '';
 
 	let totalBorderColour = 'indigo';
+	let currency = '£';
+	let grandTotal = 0;
+
+	let invoiceHtmlString = undefined;
+
+	// Define rows with reactive data
+	// let rows: invoiceRow[] = [
+    //   {
+    //     description: '',
+    //     hours: null,
+    //     rate: null,
+    //     total: 0,
+    //   }
+    // ];
 
 	function validateFutureDate(inputDate, updateValue) {
 		const today = new Date().toISOString().split('T')[0];
@@ -125,6 +143,7 @@
 		if (sortCode != undefined && !/^\d{6}$/.test(sortCode.toString())) errors.sortCode = 'Sort Code must have exactly 6 digits';
 		if (logoImageUrl != '' && !isValidUrl(logoImageUrl)) errors.logoImageUrl = 'Value is not a valid URL';
 		if (signatureImageUrl != '' && !isValidUrl(signatureImageUrl)) errors.signatureImageUrl = 'Value is not a valid URL';
+		if (filterRowsArray($invoiceItems).length === 0) errors.invoiceRow = 'Invoice data is required';
 
 		return errors;
 	};
@@ -142,11 +161,17 @@
     }
 }
 
-		    // Preprocess dates with formatDateToCustomString
-			invoiceDate = formatDateToCustomString(invoiceDate);
+		// Preprocess dates with formatDateToCustomString
+		invoiceDate = formatDateToCustomString(invoiceDate);
     	supplyStartDate = formatDateToCustomString(supplyStartDate);
     	supplyEndDate = formatDateToCustomString(supplyEndDate);
     	dueDate = formatDateToCustomString(dueDate);
+
+		// Process invoiceRows data into HTML string
+		invoiceHtmlString = generateHtmlTableRows(filterRowsArray($invoiceItems), currency)
+
+		// Calculate grand total owed
+		grandTotal = $invoiceItems.reduce((sum, row) => sum + (row.total || 0), 0)
 
 		Object.assign(data, {
 			businessName,
@@ -159,6 +184,7 @@
 			invoiceDate,
 			supplyStartDate,
 			supplyEndDate,
+			grandTotal,
 			dueDate,
 			accountName,
 			accountNumber,
@@ -167,6 +193,8 @@
 			logoImageUrl,
 			signatureImageUrl,
 			totalBorderColour,
+			currency,
+			invoiceHtmlString
 		});
 
 		console.log(data)
@@ -204,6 +232,8 @@
 		}
 	};
 </script>
+
+<InvoiceRow error={validationErrors.invoiceRow} />
 
 <form name="InvoiceGenerator" id="InvoiceGenerator" class="mx-10 p-4">
 		<div class="grid grid-cols-3">
@@ -284,6 +314,14 @@ error={validationErrors.supplyEndDate}
 />
 
 <!-- Invoice Total -->
+<Select
+label="Currency"
+bind:value={currency}>
+<option value="£">Pounds (£)</option>
+<option value="$">Dollars ($)</option>
+<option value="€">Euros (€)</option>        
+
+</Select>
 
     <Select
     label="Total Border Colour"
@@ -383,13 +421,23 @@ error={validationErrors.signatureImageUrl}
 
 		</div>
 
-<Button
-	class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-	on:click={mutateAsync}
-	disabled={isLoading}
->
-	{btnText}
-</Button>
+		<Button
+		class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 flex items-center justify-center space-x-2"
+		on:click={mutateAsync}
+		disabled={isLoading}
+	>
+		{#if isLoading}
+		<div class="flex flex-row">
+			<LoadingSpinner />
+			<span class="inline">{btnText}</span>
+		</div>
+		{:else}
+		<span class="inline">{btnText}</span>
+		{/if}
+
+	</Button>
+	
+	
 
 {#if error}
 <span class="block text-xs font-normal text-red-500">Please fill out the required fields</span>
