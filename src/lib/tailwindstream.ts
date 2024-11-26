@@ -287,7 +287,9 @@ export const handlebarsTemplate = {
 	<div class="mb-12 flex items-center justify-between">
 		<!-- Logo and Title -->
 		<div class="flex items-center">
+			{{#if logoImageUrl}}
 			<img src={{logoImageUrl}} alt="Company Logo" class="mr-4 h-16 w-16" />
+			{{/if}}
 			<h1 class="font-customHeading text-5xl font-bold text-gray-800">INVOICE</h1>
 		</div>
 
@@ -305,7 +307,9 @@ export const handlebarsTemplate = {
 			<p>{{billingCompanyName}}</p>
 			<p>{{billingCompanyAddressLine1}}</p>
 			<p>{{billingCompanyAddressLine2}}</p>
+			{{#if billingCompanyRegistrationNumber}}
 			<p>{{billingCompanyRegistrationNumber}}</p>
+			{{/if}}
 		</div>
 
 		<div class="mt-6">
@@ -374,15 +378,19 @@ export const handlebarsTemplate = {
 				<span class="text-left">Sort Code:</span>
 				<span class="text-left">{{sortCode}}</span>
 
+				{{#if bankName}}
 				<span class="text-left">Bank Name:</span>
 				<span class="text-left">{{bankName}}</span>
+				{{/if}}
 			</div>
 		</div>
 
+		{{#if signatureImageUrl}}
 		<div>
 			<p class="pb-1 font-customHeading text-lg font-medium text-gray-800">SIGNATURE:</p>
 			<img src="{{signatureImageUrl}}" alt="Signature" class="w-52 py-2" />
 		</div>
+		{{/if}}
 	</div>
 </div>
   `,
