@@ -8,8 +8,6 @@
     export let max;
     export let required = true;
     export let style = '';
-
-    // $: isEmpty = required && (value == '' || value == null || value == undefined ) ? true : false
   
     function handleInput({ target: t }) {
       if (type === 'number') {

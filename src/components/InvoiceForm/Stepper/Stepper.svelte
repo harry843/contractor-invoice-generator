@@ -1,6 +1,6 @@
 <script>
-    import Step from './Step.svelte';
-    import Tick from './Tick.svelte';
+    import Step from './Steps/Step.svelte';
+	import Tick from './Steps/Tick.svelte';
   
     export let step;
 

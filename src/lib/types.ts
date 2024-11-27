@@ -57,3 +57,35 @@ export interface invoiceRow {
     rate: number | null,
     total: number | null
 }
+
+export interface CompanyDetails {
+	businessName: string | undefined,
+    businessAddressLine1: string | undefined,
+    businessAddressLine2: string | undefined,
+    billingCompanyName: string | undefined,
+    billingCompanyAddressLine1: string | undefined,
+    billingCompanyAddressLine2: string | undefined,
+    billingCompanyRegistrationNumber: number | undefined
+}
+
+export interface InvoiceDetails {
+    invoiceNumber: string | undefined,
+    invoiceDate: Date | string | undefined,
+    currency: string,
+    dueDate: Date | string | undefined,
+    supplyStartDate: Date | string | undefined,
+	supplyEndDate: Date | string | undefined,
+}
+
+export interface PayeeDetails {
+    accountName: string | undefined,
+    accountNumber: number | undefined,
+    sortCode: number | undefined,
+    bankName: string | undefined,
+}
+
+export interface FinishingTouches {
+    logoImageUrl: string | undefined,
+    signatureImageUrl: string | undefined,
+    totalBorderColour: string
+}

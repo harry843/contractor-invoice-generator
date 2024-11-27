@@ -1,4 +1,45 @@
-import { writable } from "svelte/store";
+import { writable, type Writable } from "svelte/store";
+import type { CompanyDetails, FinishingTouches, InvoiceDetails, PayeeDetails } from "./types";
+
+export const companyDetails: Writable<CompanyDetails> = writable(
+    {
+        businessName: '',
+        businessAddressLine1: '',
+        businessAddressLine2: '',
+        billingCompanyName: '',
+        billingCompanyAddressLine1: '',
+        billingCompanyAddressLine2: '',
+        billingCompanyRegistrationNumber: undefined
+    }
+);
+
+export const invoiceDetails: Writable<InvoiceDetails> = writable(
+    {
+        invoiceNumber: '',
+        invoiceDate: new Date().toISOString().split('T')[0],
+        currency: '£',
+        dueDate: '',
+        supplyStartDate: '',
+        supplyEndDate: '',
+    }
+);
+
+export const payeeDetails: Writable<PayeeDetails> = writable(
+    {
+        accountName: '',
+        accountNumber: undefined,
+        sortCode: undefined,
+        bankName: '',
+    }
+);
+
+export const finishingTouches: Writable<FinishingTouches> = writable(
+    {
+        logoImageUrl: '',
+        signatureImageUrl: '',
+        totalBorderColour: 'indigo',
+    }
+);
 
 export const invoiceItems = writable([
     {
@@ -9,4 +50,4 @@ export const invoiceItems = writable([
       },
   ]);
 
-  export const currentStep = writable(1);
+export const currentStep = writable(1);

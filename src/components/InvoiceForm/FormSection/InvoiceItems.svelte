@@ -1,9 +1,11 @@
 <script lang="ts">
-    import Button from "./Button.svelte";
-    import Input from "./Input.svelte";
+    import Button from "../FormElements/Button.svelte";
+    import Input from "../FormElements/Input.svelte";
     import type { rowValidationErrors } from "$lib/types";
-    import { invoiceItems } from "$lib/store";
-  
+    import { currentStep, invoiceItems } from "$lib/store";
+	  import Navigation from "../FormElements/Navigation.svelte";
+
+    export let step;
     export let error;
 
     // Validation errors structure for multiple rows
@@ -29,7 +31,7 @@
     });
   
     // Validate all rows and return errors
-    const validateRow = (): rowValidationErrors[] => {
+    const validateInvoiceItems = (): rowValidationErrors[] => {
       return rows.map((row) => {
         const errors: rowValidationErrors = {
           description: null,
@@ -47,7 +49,7 @@
     // Add a new row with validation
     const addRow = () => {
       // Perform validation
-      const errors = validateRow();
+      const errors = validateInvoiceItems();
       ValidationErrors = errors;
   
       // Stop execution if there are validation errors
@@ -76,6 +78,26 @@
         { description: null, hours: null, rate: null }
       ];
     };
+
+    const goToNext = () => {
+        const errors = validateInvoiceItems();
+      ValidationErrors = errors;
+  
+      // Stop execution if there are validation errors
+      const hasErrors = errors.some((error) =>
+        Object.values(error).some((value) => value !== null)
+      );
+      if (hasErrors) {
+        console.error("Please fill out the required fields");
+        return;
+      }
+
+        // Update the current step if no errors are found
+        currentStep.update(n => Math.min(n + 1, 5));
+    };
+
+    const goToPrevious = () => currentStep.update(n => Math.max(n - 1, 1));
+
 </script>
 
 <div class="space-y-2 py-4">
@@ -122,4 +144,6 @@
   >
     Add Item
   </Button>
+
+  <Navigation {step} {goToNext} {goToPrevious}/>
 </div>

@@ -2,7 +2,7 @@
     import { handlebarsTemplate } from "$lib/tailwindstream";
     import type { PayloadInput } from "$lib/tailwindstream";
     import type { InvoiceData } from "$lib/types";
-	import InvoiceForm from "../../components/InvoiceForm.svelte";
+	import InvoiceForm from "../../components/InvoiceForm/InvoiceForm.svelte";
 
     let data: InvoiceData = {
     businessName: '',

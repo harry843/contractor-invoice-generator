@@ -1,16 +1,17 @@
 <script lang='ts'>
-	import Input from './Input.svelte';
-	import Select from './Select.svelte';
-	import Button from './Button.svelte';
 	import { requestDownload, downloadDocument, downloadToBrowser } from "$lib/tailwindstream";
-	import { formatDateToCustomString, isValidUrl, filterRowsArray, generateHtmlTableRows } from '$lib/utils';
-	import type { invoiceRow, ValidationErrors } from '$lib/types';
-	import InvoiceRow from './InvoiceRow.svelte';
-	import LoadingSpinner from './LoadingSpinner.svelte';
+	import { validateFutureDate, validateMinDate, validateMaxDate, formatDateToCustomString, isValidUrl, filterRowsArray, generateHtmlTableRows } from '$lib/utils';
+	import type { ValidationErrors } from '$lib/types';
+	import LoadingSpinner from '../LoadingSpinner.svelte';
 	import { invoiceItems, currentStep } from '$lib/store';
-	import Tick from './Tick.svelte';
-	import Step from './Step.svelte';
-	import Stepper from './Stepper.svelte';
+	import Stepper from './Stepper/Stepper.svelte';
+	import Input from "./FormElements/Input.svelte";
+	import Select from "./FormElements/Select.svelte";
+	import InvoiceRow from "./FormSection/InvoiceItems.svelte";
+	import Button from "./FormElements/Button.svelte";
+	import Navigation from "./FormElements/Navigation.svelte";
+	import CompanyDetails from "./FormSection/CompanyDetails.svelte";
+	import InvoiceDetails from "./FormSection/InvoiceDetails.svelte";
 	
 	export let data;
 	export let payload;
@@ -76,37 +77,14 @@
 
 	let invoiceHtmlString = undefined;
 
-	function validateFutureDate(inputDate, updateValue) {
-		const today = new Date().toISOString().split('T')[0];
-		if (inputDate > today) {
-			updateValue(today);
-		}
-	}
-
-	export function handleFutureDate(event, stateUpdater) {
+	function handleFutureDate(event, stateUpdater) {
 		validateFutureDate(event.target.value, (newValue) => {
 			event.target.value = newValue;
 			stateUpdater(newValue);
 		});
 	}
 
-	function validateMaxDate(inputDate, updateValue) {
-		const maxDate = new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0];
-		if (inputDate > maxDate) {
-			error = `Date cannot be more than 1 year after today (${maxDate})!`;
-			updateValue(maxDate);
-		}
-	}
-
-	function validateMinDate(inputDate, updateValue) {
-		const minDate = new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0];
-		if (inputDate < minDate) {
-			error = `Date cannot be more than 5 years before today (${minDate})!`;
-			updateValue(minDate);
-		}
-	}
-
-	export function handleDateChange(event, stateUpdater) {
+	function handleDateChange(event, stateUpdater) {
 		const inputDate = event.target.value;
 		validateMaxDate(inputDate, (newValue) => {
 			event.target.value = newValue;
@@ -120,12 +98,14 @@
 
 	const validate = () => {
 		const errors : ValidationErrors = {};
+		// Company Details
 		if (!businessName) errors.businessName = 'Business Name is required';
 		if (!businessAddressLine1) errors.businessAddressLine1 = 'Address is required';
 		if (!businessAddressLine2) errors.businessAddressLine2 = 'Address is required';
 		if (!billingCompanyName) errors.billingCompanyName = 'Billing Company Name is required';
 		if (!billingCompanyAddressLine1) errors.billingCompanyAddressLine1 = 'Address is required';
 		if (!billingCompanyAddressLine2) errors.billingCompanyAddressLine2 = 'Address is required';
+		// Invoice Details
 		if (!invoiceNumber) errors.invoiceNumber = 'Invoice Number is required';
 		if (new Date(invoiceDate) > new Date(new Date().getFullYear() + 1, 11, 31)) errors.invoiceDate = `Value must be earlier than ${formatDateToCustomString(new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0])}`;
 		if (new Date(invoiceDate) < new Date(new Date().getFullYear() - 5, 0, 1)) errors.invoiceDate = `Value must be later than ${formatDateToCustomString(new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0])}`;
@@ -138,10 +118,12 @@
 		if (dueDate === '') errors.dueDate = `Due Date is required`;
 		if (dueDate !== '' && new Date(dueDate) > new Date(new Date().getFullYear() + 1, 11, 31)) errors.dueDate = `Value must be today or earlier: ${formatDateToCustomString(new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0])}`;
 		if (dueDate !== '' && new Date(dueDate) < new Date(new Date().getFullYear() - 5, 0, 1)) errors.dueDate = `Value must be later than ${formatDateToCustomString(new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0])}`;
+		// Payee Details
 		if (!accountName) errors.accountName = 'Account Name is required';
 		if (accountNumber === undefined) errors.accountNumber = 'Account Number is required';
 		if (sortCode === undefined) errors.sortCode = 'Sort Code is required';
 		if (sortCode != undefined && !/^\d{6}$/.test(sortCode.toString())) errors.sortCode = 'Sort Code must have exactly 6 digits';
+		// Finishing touches
 		if (logoImageUrl != '' && !isValidUrl(logoImageUrl)) errors.logoImageUrl = 'Value is not a valid URL';
 		if (signatureImageUrl != '' && !isValidUrl(signatureImageUrl)) errors.signatureImageUrl = 'Value is not a valid URL';
 		if (filterRowsArray($invoiceItems).length === 0) errors.invoiceRow = 'Invoice data is required';
@@ -242,117 +224,25 @@
 <form class="px-[2.5%] w-1/2">
 <!-- 1. Company details -->
 {#if step == 1}
-<h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Company Details</h1>
-<h2 class="font-medium text-base pb-2.5">Your Company</h2>
-<Input type="text" label="Business Name" placeholder="Your Company Name" bind:value={businessName} error={validationErrors.businessName} />
-<Input type="text" label="Business Address Line 1" bind:value={businessAddressLine1} error={validationErrors.businessAddressLine1} />
-<Input type="text" label="Business Address Line 2" bind:value={businessAddressLine2} error={validationErrors.businessAddressLine2} />
-
-<h2 class="font-medium text-base py-2">Billed To</h2>
-<Input
-type="text"
-label="Company Name"
-placeholder = "Billing Company Name"
-bind:value={billingCompanyName}
-error={validationErrors.billingCompanyName}
-/>
-
-<Input
-type="text"
-label="Company Address Line 1"
-bind:value={billingCompanyAddressLine1}
-error={validationErrors.billingCompanyAddressLine1}
-/>
-
-<Input
-type="text"
-label="Company Address Line 2"
-bind:value={billingCompanyAddressLine2}
-error={validationErrors.billingCompanyAddressLine2}
-/>
-
-<Input
-type="number"
-label="Company Registration Number"
-required = {false}
-bind:value={billingCompanyRegistrationNumber}
-
-/>
+<CompanyDetails {step} />
 {/if}
 
 <!-- 2. Invoice details -->
  {#if step == 2}
- <h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Invoice Details</h1>
- <Input
-type="date"
-label="Invoice Date"
-max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
-min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
-bind:value={invoiceDate}
-on:change={(e) => handleDateChange(e, (val) => (invoiceDate = val))}
-error={validationErrors.invoiceDate}
-/>
-
-<Input
-type="text"
-label="Invoice Number"
-placeholder = "HK12345"
-bind:value={invoiceNumber}
-error={validationErrors.invoiceNumber}
-
-/>
-
-<Select
-label="Currency"
-bind:value={currency}>
-<option value="£">Pounds (£)</option>
-<option value="$">Dollars ($)</option>
-<option value="€">Euros (€)</option>        
-</Select>
-
-
-<Input
-type="date"
-label="Payment Due Date"
-max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
-min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
-bind:value={dueDate}
-on:change={(e) => handleDateChange(e, (val) => (dueDate = val))}
-error={validationErrors.dueDate}
-/>
-
-<Input
-type="date"
-label="Supply Start Date"
-max={new Date().toISOString().split('T')[0]}
-bind:value={supplyStartDate}
-on:change={(e) => handleFutureDate(e, (val) => (supplyStartDate = val))}
-error={validationErrors.supplyStartDate}
-/>
-
-<Input
-type="date"
-label="Supply End Date"
-max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
-min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
-bind:value={supplyEndDate}
-on:change={(e) => handleDateChange(e, (val) => (supplyEndDate = val))}
-error={validationErrors.supplyEndDate}
-
-/>
+ <InvoiceDetails {step} />
 
 {/if}
 
 <!-- 3. Invoice items --> 
 {#if step == 3}
-<h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Invoice Items</h1>
+<h1 class="text-xl py-2.5 font-semibold text-center font-customHeading">Invoice Items</h1>
 
-<InvoiceRow error={validationErrors.invoiceRow} />
+<InvoiceRow {step} error={validationErrors.invoiceRow} />
 {/if}
 
-<!-- 4. Payment Information -->
+<!-- 4. Payee Information -->
  {#if step == 4}
- <h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Payment Information</h1>
+ <h1 class="text-xl py-2.5 font-semibold text-center font-customHeading">Payee Information</h1>
 
 <Input
 type="text"
@@ -396,7 +286,7 @@ bind:value={bankName}
 
 <!-- 5. Finishing touches -->
  {#if step == 5}
- <h1 class="text-xl pb-2.5 font-semibold text-center font-customHeading">Finishing Touches</h1>
+ <h1 class="text-xl py-2.5 font-semibold text-center font-customHeading">Finishing Touches</h1>
 
 <Input
 type="text"
@@ -465,15 +355,7 @@ bind:value={totalBorderColour}>
 <span class="block text-xs font-normal text-red-500">{error}</span>
 {/if}
 
-<!-- Navigation Buttons -->
-<div class="flex justify-between mt-6">
-    {#if step > 1}
-      <button on:click={goToPrevious} class="px-4 py-2 bg-gray-300 rounded-md">Back</button>
-    {/if}
-    {#if step < 5}
-      <button on:click={goToNext} class="px-4 py-2 bg-blue-500 text-white rounded-md">Next</button>
-    {/if}
-  </div>
+<Navigation {step} {goToNext} {goToPrevious}/>
 </form>
 <div class="w-1/2 bg-black"></div>
 </div>
