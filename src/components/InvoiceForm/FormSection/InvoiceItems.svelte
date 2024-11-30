@@ -8,6 +8,7 @@
 
     export let step;
     export let error;
+    export let currency = '£';
 
     // Validation errors structure for multiple rows
     let ValidationErrors: rowValidationErrors[] = [];
@@ -30,6 +31,9 @@
         return items;
       });
     });
+
+    // Calculate total of all invoice items
+    $: totalSum = rows.reduce((sum, row) => sum + row.total, 0)
   
     // Validate all rows and return errors
     const validateInvoiceItems = (): rowValidationErrors[] => {
@@ -80,27 +84,29 @@
       ];
     };
 
-      // Delete the last row with a prompt for non-empty rows
-      const deleteRow = () => {
-            // Prevent deletion if there's only one row
-        if (rows.length === 1) {
-          alert("You cannot delete the only row.");
-          return;
-        }
-        const lastRow = rows[rows.length - 1];
-        if (!lastRow.description && !lastRow.hours && !lastRow.rate) {
-            // If the last row is empty, delete it directly
-            invoiceItems.update(items => items.slice(0, -1));
-            ValidationErrors = ValidationErrors.slice(0, -1); // Remove validation for the last row
-        } else {
-            // Show confirmation dialog for non-empty rows
-            const confirmDelete = window.confirm("Are you sure you want to delete this row? This will remove any unsaved data.");
-            if (confirmDelete) {
-                invoiceItems.update(items => items.slice(0, -1)); // Remove last row
-                ValidationErrors = ValidationErrors.slice(0, -1); // Remove validation for the last row
-            }
-        }
-    };
+ // Delete the row at the specified index
+ const deleteRow = (index: number) => {
+    // Prevent deletion if there's only one row
+    if (rows.length === 1) {
+      alert("You cannot delete the only row.");
+      return;
+    }
+    const rowToDelete = rows[index];
+    if (!rowToDelete.description && !rowToDelete.hours && !rowToDelete.rate) {
+      // If the row is empty, delete it directly
+      invoiceItems.update((items) => items.filter((_, i) => i !== index));
+      ValidationErrors = ValidationErrors.filter((_, i) => i !== index); // Remove corresponding validation error
+    } else {
+      // Show confirmation dialog for non-empty rows
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this row? This will remove any unsaved data."
+      );
+      if (confirmDelete) {
+        invoiceItems.update((items) => items.filter((_, i) => i !== index)); // Remove the specific row
+        ValidationErrors = ValidationErrors.filter((_, i) => i !== index); // Remove corresponding validation error
+      }
+    }
+  };
 
     const goToNext = () => {
         const errors = validateInvoiceItems();
@@ -152,14 +158,25 @@
         bind:value={row.rate}
         error={ValidationErrors[index]?.rate}
       />
+      <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+      {#if index == 0}
+      <label>Total</label>
+      <div class="block py-1 text-gray-900 text-sm font-medium ">
+        {currency}{row.total.toFixed(2)}
+      </div>
+      {:else}
+      <div class="block pt-5 text-gray-900 text-sm font-medium ">
+        {currency}{row.total.toFixed(2)}
+      </div>
+      {/if}
+
+    </div>
+   
       {#if rows.length > 1}
       <DeleteButton
-      on:click={deleteRow}
+      on:click={() => deleteRow(index)}
       />
       {/if}
-      <div class="flex-1 text-right text-sm font-bold pt-2">
-        {row.total.toFixed(2)}
-      </div>
     </div>
   {/each}
 </div>
@@ -168,14 +185,17 @@
   <span class="block text-xs font-normal text-red-500">{error}</span>
   {/if}
 
+  <div class="flex items-center justify-stretch">
   <Button
     on:click={addRow}
   >
     Add Item
   </Button>
 
-
-  
+<div class="font-base font-medium -translate-y-1 translate-x-52">
+  Total due: <span class="font-semibold font-sans text-lg">{currency}{totalSum}</span>
+</div>
+</div>
 
   <Navigation {step} {goToNext} {goToPrevious}/>
 </div>
