@@ -335,7 +335,6 @@ bind:value={totalBorderColour}>
 
 
 		<Button
-		class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 flex items-center justify-center space-x-2"
 		on:click={mutateAsync}
 		disabled={isLoading}
 	>

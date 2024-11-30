@@ -13,7 +13,8 @@ export default {
 		'bg-emerald-600',
 		'hover:bg-emerald-800',
 		'dark:bg-emerald-600',
-		'dark:hover:bg-emerald-700'
+		'dark:hover:bg-emerald-700',
+		'bg-red-600'
 	  ],
 
 	theme: {

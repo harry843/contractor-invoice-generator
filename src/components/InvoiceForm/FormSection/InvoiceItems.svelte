@@ -4,6 +4,7 @@
     import type { rowValidationErrors } from "$lib/types";
     import { currentStep, invoiceItems } from "$lib/store";
 	  import Navigation from "../FormElements/Navigation.svelte";
+	import DeleteButton from "../FormElements/DeleteButton.svelte";
 
     export let step;
     export let error;
@@ -79,6 +80,28 @@
       ];
     };
 
+      // Delete the last row with a prompt for non-empty rows
+      const deleteRow = () => {
+            // Prevent deletion if there's only one row
+        if (rows.length === 1) {
+          alert("You cannot delete the only row.");
+          return;
+        }
+        const lastRow = rows[rows.length - 1];
+        if (!lastRow.description && !lastRow.hours && !lastRow.rate) {
+            // If the last row is empty, delete it directly
+            invoiceItems.update(items => items.slice(0, -1));
+            ValidationErrors = ValidationErrors.slice(0, -1); // Remove validation for the last row
+        } else {
+            // Show confirmation dialog for non-empty rows
+            const confirmDelete = window.confirm("Are you sure you want to delete this row? This will remove any unsaved data.");
+            if (confirmDelete) {
+                invoiceItems.update(items => items.slice(0, -1)); // Remove last row
+                ValidationErrors = ValidationErrors.slice(0, -1); // Remove validation for the last row
+            }
+        }
+    };
+
     const goToNext = () => {
         const errors = validateInvoiceItems();
       ValidationErrors = errors;
@@ -101,6 +124,7 @@
 </script>
 
 <div class="space-y-2 py-4">
+  <div class="flex flex-col items-start">
   {#each rows as row, index}
     <div class="flex items-center gap-4">
       <Input
@@ -128,11 +152,17 @@
         bind:value={row.rate}
         error={ValidationErrors[index]?.rate}
       />
+      {#if rows.length > 1}
+      <DeleteButton
+      on:click={deleteRow}
+      />
+      {/if}
       <div class="flex-1 text-right text-sm font-bold pt-2">
         {row.total.toFixed(2)}
       </div>
     </div>
   {/each}
+</div>
 
   {#if error}
   <span class="block text-xs font-normal text-red-500">{error}</span>
@@ -140,10 +170,12 @@
 
   <Button
     on:click={addRow}
-    class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
   >
     Add Item
   </Button>
+
+
+  
 
   <Navigation {step} {goToNext} {goToPrevious}/>
 </div>
