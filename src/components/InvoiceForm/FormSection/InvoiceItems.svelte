@@ -130,9 +130,10 @@
 </script>
 
 <div class="space-y-2 py-4">
-  <div class="flex flex-col items-start">
+  <div class="flex flex-col items-start gap-y-1">
   {#each rows as row, index}
     <div class="flex items-center gap-4">
+      {#if index === 0}
       <Input
         type="text"
         label="Task Description"
@@ -158,20 +159,41 @@
         bind:value={row.rate}
         error={ValidationErrors[index]?.rate}
       />
-      <div class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-      {#if index == 0}
-      <label>Total</label>
+
+      <div class="block mb-2 w-16 text-sm font-medium text-gray-900 dark:text-white">
+      <h2>Total</h2>
       <div class="block py-1 text-gray-900 text-sm font-medium ">
         {currency}{row.total.toFixed(2)}
       </div>
-      {:else}
-      <div class="block pt-5 text-gray-900 text-sm font-medium ">
-        {currency}{row.total.toFixed(2)}
-      </div>
-      {/if}
-
     </div>
-   
+    {:else}
+    <Input
+    type="text"
+    bind:value={row.description}
+    error={ValidationErrors[index]?.description}
+  />
+  <Input
+    type="number"
+    step="0.1"
+    style="max-w-24"
+    bind:value={row.hours}
+    error={ValidationErrors[index]?.hours}
+  />
+  <Input
+    type="number"
+    step="0.01"
+    style="max-w-24"
+    bind:value={row.rate}
+    error={ValidationErrors[index]?.rate}
+  />
+
+  <div class="block mb-2 w-16 text-sm font-medium text-gray-900 dark:text-white">
+  <div class="block text-gray-900 text-sm font-medium ">
+    {currency}{row.total.toFixed(2)}
+  </div>
+  </div>
+    {/if}
+
       {#if rows.length > 1}
       <DeleteButton
       on:click={() => deleteRow(index)}
@@ -179,6 +201,18 @@
       {/if}
     </div>
   {/each}
+  {#if rows.length > 1}
+  <div
+  id="TotalDue"
+  class="grid grid-cols-7 justify-end items-center text-lg font-semibold"
+
+>
+<div class="col-span-6"></div>
+<div class="text-gray-900 border-t border-gray-300 pt-1.5 col-span-1">
+  {currency}{totalSum.toFixed(2)}
+</div>
+</div>
+  {/if}
 </div>
 
   {#if error}
@@ -192,9 +226,6 @@
     Add Item
   </Button>
 
-<div class="font-base font-medium -translate-y-1 translate-x-52">
-  Total due: <span class="font-semibold font-sans text-lg">{currency}{totalSum}</span>
-</div>
 </div>
 
   <Navigation {step} {goToNext} {goToPrevious}/>

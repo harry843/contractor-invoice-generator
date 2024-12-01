@@ -1,8 +1,8 @@
-<button class="group ml-auto self-center translate-y-1" on:click>
+<button class="group" on:click>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 2 2"
-      class="w-7 h-7"
+      class="w-6 h-6"
     >
       <!-- Circle with Tailwind styling -->
       <circle
