@@ -3,15 +3,16 @@
     import Input from "../FormElements/Input.svelte";
     import type { rowValidationErrors } from "$lib/types";
     import { currentStep, invoiceItems } from "$lib/store";
-	  import Navigation from "../FormElements/Navigation.svelte";
+	  import Forward from "../FormElements/Forward.svelte";
 	import DeleteButton from "../FormElements/DeleteButton.svelte";
 
     export let step;
-    export let error;
     export let currency = '£';
 
     // Validation errors structure for multiple rows
     let ValidationErrors: rowValidationErrors[] = [];
+
+    let error = ''
   
     // Subscribe to the store
     $: rows = $invoiceItems; // Reactive subscription to the store
@@ -117,15 +118,13 @@
         Object.values(error).some((value) => value !== null)
       );
       if (hasErrors) {
-        console.error("Please fill out the required fields");
+        error = "Please fill out the required fields";
         return;
       }
 
         // Update the current step if no errors are found
         currentStep.update(n => Math.min(n + 1, 5));
     };
-
-    const goToPrevious = () => currentStep.update(n => Math.max(n - 1, 1));
 
 </script>
 
@@ -215,9 +214,6 @@
   {/if}
 </div>
 
-  {#if error}
-  <span class="block text-xs font-normal text-red-500">{error}</span>
-  {/if}
 
   <div class="flex items-center justify-stretch">
   <Button
@@ -225,8 +221,12 @@
   >
     Add Item
   </Button>
-
 </div>
 
-  <Navigation {step} {goToNext} {goToPrevious}/>
+  <Forward {step} {goToNext}/>
+
+{#if error}
+<span class="block text-xs font-normal text-red-500">{error}</span>
+{/if}
+
 </div>

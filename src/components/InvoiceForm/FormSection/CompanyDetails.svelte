@@ -2,7 +2,7 @@
 	import Input from "../FormElements/Input.svelte";
     import { companyDetails, currentStep } from "$lib/store";
 	import type { ValidationErrors } from "$lib/types";
-	import Navigation from "../FormElements/Navigation.svelte";
+	import Forward from "../FormElements/Forward.svelte";
 
     export let step;
     
@@ -116,4 +116,10 @@ required = {false}
 bind:value={data.billingCompanyRegistrationNumber}
 />
 
-<Navigation {step} {goToNext} />
+<Forward {step} {goToNext} />
+
+{#if error}
+
+    <span class="block text-xs font-normal text-red-500">{error}</span>
+
+{/if}

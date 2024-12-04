@@ -4,7 +4,8 @@
 	import { formatDateToCustomString, validateFutureDate, validateMaxDate, validateMinDate } from "$lib/utils";
 	import { currentStep, invoiceDetails } from "$lib/store";
 	import type { ValidationErrors } from "$lib/types";
-	import Navigation from "../FormElements/Navigation.svelte";
+	import Navigation from "../FormElements/Forward.svelte";
+	import Back from "../FormElements/Back.svelte";
 
     export let step;
 
@@ -74,7 +75,7 @@
         const hasErrors = Object.values(validationErrors).some(value => value !== null);
 
         if (hasErrors) {
-            error = 'Please fill out the required fields';
+            error = 'Please complete the required fields';
             return; // Stop execution if there are errors
         }
 
@@ -85,8 +86,12 @@
     const goToPrevious = () => currentStep.update(n => Math.max(n - 1, 1));
 
 </script>
-
-<h1 class="text-xl py-2.5 font-semibold text-center font-customHeading">Invoice Details</h1>
+<div class="grid grid-cols-5 justify-items-start items-center">
+<div class="col-span-2">
+<Back  {step} {goToPrevious} />
+</div>
+<h1 class="col-span-3 text-xl py-2.5 font-semibold text-center font-customHeading">Invoice Details</h1>
+</div>
 
  <Input
 type="date"
@@ -145,4 +150,10 @@ error={validationErrors.supplyEndDate}
 
 />
 
-<Navigation {step} {goToNext} {goToPrevious} />
+<Navigation {step} {goToNext} />
+
+{#if error}
+
+    <span class="block text-xs font-normal text-red-500">{error}</span>
+
+{/if}

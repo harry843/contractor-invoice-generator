@@ -2,7 +2,9 @@ import type { invoiceRow } from "./types";
 
 export function formatDateToCustomString(input: Date | string): string {
     let date: Date;
-
+    // handle undefined inputs
+    if (!input) 
+      return 'Invalid Date'
     // Convert the input to a Date object if it's a string
     if (typeof input === "string") {
         date = new Date(input);

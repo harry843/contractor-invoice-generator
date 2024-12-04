@@ -1,5 +1,5 @@
 import { writable, type Writable } from "svelte/store";
-import type { CompanyDetails, FinishingTouches, InvoiceDetails, PayeeDetails } from "./types";
+import type { CompanyDetails, FinishingTouches, InvoiceDetails, PayeeDetails, ValidationErrors } from "./types";
 
 export const companyDetails: Writable<CompanyDetails> = writable(
     {
@@ -38,6 +38,14 @@ export const finishingTouches: Writable<FinishingTouches> = writable(
         logoImageUrl: '',
         signatureImageUrl: '',
         totalBorderColour: 'indigo',
+    }
+);
+
+export const imageValidationErrors: Writable<Partial<ValidationErrors>> = writable(
+    {
+        logoImageUrl: null,
+        signatureImageUrl: null,
+        invoiceRow: null
     }
 );
 
