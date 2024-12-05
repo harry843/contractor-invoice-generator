@@ -1,3 +1,4 @@
+import type { Writable } from "svelte/store";
 import type { invoiceRow } from "./types";
 
 export function formatDateToCustomString(input: Date | string): string {
@@ -95,4 +96,15 @@ export function generateHtmlTableRows(rows: invoiceRow[], currency: string) {
       `
     )
     .join('');
+}
+
+export function placeholderIfBlank(input:string | number | Date | undefined, placeholder:string) {
+    return input ? input : placeholder;
+}
+
+export function updateStoreOnInput(store: Writable<{}>,key: any, value: any) {
+  store.update((details: { [x: string]: any; }) => {
+      details[key] = value;
+      return details;
+  });
 }

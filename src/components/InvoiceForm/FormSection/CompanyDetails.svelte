@@ -1,8 +1,10 @@
 <script lang='ts'>
 	import Input from "../FormElements/Input.svelte";
     import { companyDetails, currentStep } from "$lib/store";
-	import type { ValidationErrors } from "$lib/types";
+	import type { ValidationErrors, CompanyDetails } from "$lib/types";
 	import Forward from "../FormElements/Forward.svelte";
+	import type { Writable } from "svelte/store";
+	import { updateStoreOnInput } from "$lib/utils";
 
     export let step;
     
@@ -67,14 +69,16 @@
 type="text" 
 label="Business Name" 
 placeholder="Your Company Name" 
-bind:value={data.businessName} 
+bind:value={data.businessName}
+on:input ={(e) => {updateStoreOnInput(companyDetails,'businessName', (e.target as HTMLInputElement).value)}}
 error={validationErrors.businessName} 
 />
 
 <Input 
 type="text" 
 label="Business Address Line 1" 
-bind:value={data.businessAddressLine1} 
+bind:value={data.businessAddressLine1}
+on:input ={(e) => {updateStoreOnInput(companyDetails,'businessAddressLine1', (e.target as HTMLInputElement).value)}}
 error={validationErrors.businessAddressLine1} 
 />
 
@@ -82,6 +86,7 @@ error={validationErrors.businessAddressLine1}
 type="text"
 label="Business Address Line 2"
 bind:value={data.businessAddressLine2}
+on:input ={(e) => {updateStoreOnInput(companyDetails,'businessAddressLine2', (e.target as HTMLInputElement).value)}}
 error={validationErrors.businessAddressLine2} 
 />
 
@@ -92,6 +97,7 @@ type="text"
 label="Company Name"
 placeholder = "Billing Company Name"
 bind:value={data.billingCompanyName}
+on:input ={(e) => {updateStoreOnInput(companyDetails,'billingCompanyName', (e.target as HTMLInputElement).value)}}
 error={validationErrors.billingCompanyName}
 />
 
@@ -99,6 +105,7 @@ error={validationErrors.billingCompanyName}
 type="text"
 label="Company Address Line 1"
 bind:value={data.billingCompanyAddressLine1}
+on:input ={(e) => {updateStoreOnInput(companyDetails,'billingCompanyAddressLine1', (e.target as HTMLInputElement).value)}}
 error={validationErrors.billingCompanyAddressLine1}
 />
 
@@ -106,6 +113,7 @@ error={validationErrors.billingCompanyAddressLine1}
 type="text"
 label="Company Address Line 2"
 bind:value={data.billingCompanyAddressLine2}
+on:input ={(e) => {updateStoreOnInput(companyDetails,'billingCompanyAddressLine2', (e.target as HTMLInputElement).value)}}
 error={validationErrors.billingCompanyAddressLine2}
 />
 
@@ -114,6 +122,7 @@ type="number"
 label="Company Registration Number"
 required = {false}
 bind:value={data.billingCompanyRegistrationNumber}
+on:input ={(e) => {updateStoreOnInput(companyDetails,'billingCompanyRegistrationNumber', (e.target as HTMLInputElement).value)}}
 />
 
 <Forward {step} {goToNext} />

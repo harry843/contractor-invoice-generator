@@ -7,7 +7,7 @@
     const totalSteps = 5;
     </script>
   
-  <ol class="flex items-center w-1/2 px-[2.5%] py-2">
+  <ol class="flex items-center px-[2.5%] py-2">
     {#each Array(totalSteps).fill(0).map((_, index) => index + 1) as stepIndex}
       {#if stepIndex < step}
         <Tick />

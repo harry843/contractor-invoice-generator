@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { payeeDetails, currentStep } from "$lib/store";
 	import type { ValidationErrors } from "$lib/types";
+	import { updateStoreOnInput } from "$lib/utils";
 	import Back from "../FormElements/Back.svelte";
 	import Forward from "../FormElements/Forward.svelte";
 	import Input from "../FormElements/Input.svelte";
@@ -67,6 +68,7 @@
 type="text"
 label="Account Name"
 bind:value={data.accountName}
+on:input ={(e) => {updateStoreOnInput(payeeDetails,'accountName', (e.target as HTMLInputElement).value)}}
 error={validationErrors.accountName}
 />
 
@@ -74,6 +76,7 @@ error={validationErrors.accountName}
 type="number"
 label="Account Number"
 bind:value={data.accountNumber}
+on:input ={(e) => {updateStoreOnInput(payeeDetails,'accountNumber', (e.target as HTMLInputElement).value)}}
 error={validationErrors.accountNumber}
 />
 
@@ -87,7 +90,7 @@ on:input={(e) => {
     if (input.length > 6) {
       e.target.value = input.slice(0, 6); // Truncate to 6 digits
     }
-    sortCode = e.target.value; // Update value
+    updateStoreOnInput(payeeDetails,'sortCode', (e.target as HTMLInputElement).value); // Update value
   }}
   error={validationErrors.sortCode}
 
@@ -99,6 +102,7 @@ label="Bank Name"
 placeholder = 'e.g. HSBC'
 required={false}
 bind:value={data.bankName}
+on:input ={(e) => {updateStoreOnInput(payeeDetails,'bankName', (e.target as HTMLInputElement).value)}}
 />
 
 <Forward {step} {goToNext} />

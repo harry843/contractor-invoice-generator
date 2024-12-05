@@ -1,7 +1,7 @@
 <script lang='ts'>
 	import Input from "../FormElements/Input.svelte";
 	import Select from "../FormElements/Select.svelte";
-	import { formatDateToCustomString, validateFutureDate, validateMaxDate, validateMinDate } from "$lib/utils";
+	import { formatDateToCustomString, updateStoreOnInput, validateFutureDate, validateMaxDate, validateMinDate } from "$lib/utils";
 	import { currentStep, invoiceDetails } from "$lib/store";
 	import type { ValidationErrors } from "$lib/types";
 	import Navigation from "../FormElements/Forward.svelte";
@@ -100,6 +100,7 @@ max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
 min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
 bind:value={data.invoiceDate}
 on:change={(e) => handleDateChange(e, (val) => (data.invoiceDate = val))}
+on:input ={(e) => {updateStoreOnInput(invoiceDetails,'invoiceDate', (e.target as HTMLInputElement).value)}}
 error={validationErrors.invoiceDate}
 />
 
@@ -108,6 +109,7 @@ type="text"
 label="Invoice Number"
 placeholder = "HK12345"
 bind:value={data.invoiceNumber}
+on:input ={(e) => {updateStoreOnInput(invoiceDetails,'invoiceNumber', (e.target as HTMLInputElement).value)}}
 error={validationErrors.invoiceNumber}
 
 />
@@ -127,6 +129,7 @@ max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
 min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
 bind:value={data.dueDate}
 on:change={(e) => handleDateChange(e, (val) => (data.dueDate = val))}
+on:input ={(e) => {updateStoreOnInput(invoiceDetails,'dueDate', (e.target as HTMLInputElement).value)}}
 error={validationErrors.dueDate}
 />
 
@@ -136,6 +139,7 @@ label="Supply Start Date"
 max={new Date().toISOString().split('T')[0]}
 bind:value={data.supplyStartDate}
 on:change={(e) => handleFutureDate(e, (val) => (data.supplyStartDate = val))}
+on:input ={(e) => {updateStoreOnInput(invoiceDetails,'supplyStartDate', (e.target as HTMLInputElement).value)}}
 error={validationErrors.supplyStartDate}
 />
 
@@ -146,6 +150,7 @@ max={new Date(new Date().getFullYear() + 1, 11, 31).toISOString().split('T')[0]}
 min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
 bind:value={data.supplyEndDate}
 on:change={(e) => handleDateChange(e, (val) => (data.supplyEndDate = val))}
+on:input ={(e) => {updateStoreOnInput(invoiceDetails,'supplyEndDate', (e.target as HTMLInputElement).value)}}
 error={validationErrors.supplyEndDate}
 
 />

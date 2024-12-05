@@ -5,6 +5,7 @@
     import { finishingTouches, currentStep } from "$lib/store";
 	import Back from "../FormElements/Back.svelte";
 	import InformationAdmonition from "../FormElements/InformationAdmonition.svelte";
+	import { updateStoreOnInput } from "$lib/utils";
 
     export let step;
     export let validationErrors;
@@ -35,6 +36,7 @@ label="Logo Image URL"
 placeholder = 'Public Image URL'
 required={false}
 bind:value={data.logoImageUrl}
+on:input ={(e) => {updateStoreOnInput(finishingTouches,'logoImageUrl', (e.target as HTMLInputElement).value)}}
 error={validationErrors.logoImageUrl}
 
 />
@@ -45,6 +47,7 @@ label="Signature Image URL"
 placeholder = 'Public Image URL'
 required={false}
 bind:value={data.signatureImageUrl}
+on:input ={(e) => {updateStoreOnInput(finishingTouches,'signatureImageUrl', (e.target as HTMLInputElement).value)}}
 error={validationErrors.signatureImageUrl}
 />
 

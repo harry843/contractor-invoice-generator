@@ -2,7 +2,8 @@
     import { handlebarsTemplate } from "$lib/tailwindstream";
     import type { PayloadInput } from "$lib/tailwindstream";
     import type { InvoiceData } from "$lib/types";
-	import InvoiceForm from "../../components/InvoiceForm/InvoiceForm.svelte";
+	  import InvoiceForm from "../../components/InvoiceForm/InvoiceForm.svelte";
+	import Preview from "../../components/InvoiceForm/Preview/Preview.svelte";
 
     let data: InvoiceData = {
     businessName: '',
@@ -37,13 +38,19 @@
       size: "a4",
     };
 </script>
-
+<div class="flex flex-row">
+<div class="min-w-xl w-1/2">
 <InvoiceForm {data} {payload} />
+</div>
+<div class="">
 
-    <div>
+</div>
+<Preview />
+</div>
+    <!-- <div>
       <textarea
         class="p-4 mt-4 w-full h-96 border border-gray-300 rounded"
         bind:value={payload.html}
       ></textarea>
-    </div>  
+    </div>   -->
   

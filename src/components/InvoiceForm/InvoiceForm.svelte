@@ -55,12 +55,11 @@
 
 
 </script>
-
+<div>
 	<!-- Progress step tracker -->
 	<Stepper {step}/>
 
-<div class="flex flex-row">
-<form class="px-[2.5%] w-1/2">
+<form class="px-[5%]">
 <!-- 1. Company details -->
 {#if step == 1}
 <CompanyDetails {step} />
@@ -98,5 +97,4 @@
 {/if}
 
 </form>
-<div class="w-1/2 bg-black"></div>
 </div>
