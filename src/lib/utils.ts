@@ -98,6 +98,64 @@ export function generateHtmlTableRows(rows: invoiceRow[], currency: string) {
     .join('');
 }
 
+export function formatStartDate(startDate: string, endDate: string) {
+   // Check if input dates are undefined
+   if (!startDate || !endDate) {
+    return { startDate: startDate || null, endDate: endDate || null };
+}
+
+// Parse the dates to extract year and month
+const start = new Date(startDate);
+const end = new Date(endDate);
+const startYear = start.getFullYear();
+const endYear = end.getFullYear();
+const startMonth = start.getMonth();
+const endMonth = end.getMonth();
+
+// Check if both dates share the same year and month
+if (startYear === endYear && startMonth === endMonth) {
+    return { startDate: start.getDate().toString(), endDate: endDate };
+}
+
+// Check if both dates share the same year
+if (startYear === endYear) {
+    // Remove the last 5 characters from the startDate (the year)
+    startDate = startDate.slice(0, -5).trim();
+}
+
+// Return the modified startDate and unmodified endDate
+return { startDate, endDate };
+}
+
+
+export function getLastWorkingDayOfNextMonth() {
+  const today = new Date();
+  
+  // Calculate the first day of the next month
+  const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+  
+  // Calculate the last day of the next month
+  const endOfNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0);
+  
+  // Determine the day of the week for the last day of the month
+  let dayOfWeek = endOfNextMonth.getDay();
+
+  // Adjust to the last working day if the last day is a weekend
+  if (dayOfWeek === 6) { // Saturday
+      endOfNextMonth.setDate(endOfNextMonth.getDate() - 1); // Move to Friday
+  } else if (dayOfWeek === 0) { // Sunday
+      endOfNextMonth.setDate(endOfNextMonth.getDate() - 2); // Move to Friday
+  }
+
+  // Format the date as '1 Jan 2024'
+  const day = endOfNextMonth.getDate();
+  const month = endOfNextMonth.toLocaleString('en-US', { month: 'short' });
+  const year = endOfNextMonth.getFullYear();
+
+  return `${day} ${month} ${year}`;
+}
+
+
 export function placeholderIfBlank(input:string | number | Date | undefined, placeholder:string) {
     return input ? input : placeholder;
 }

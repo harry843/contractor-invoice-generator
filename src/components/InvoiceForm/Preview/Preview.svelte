@@ -1,8 +1,13 @@
 <script lang="ts">
     import { companyDetails, invoiceDetails, invoiceItems, payeeDetails, finishingTouches } from "$lib/store";
-	import { formatDateToCustomString, placeholderIfBlank } from "$lib/utils";
+	import { formatDateToCustomString, formatStartDate, getLastWorkingDayOfNextMonth, placeholderIfBlank } from "$lib/utils";
 
-    
+    $: startDate = $invoiceDetails.supplyStartDate ? formatDateToCustomString($invoiceDetails.supplyStartDate) : ''
+    $: endDate = $invoiceDetails.supplyEndDate ? formatDateToCustomString($invoiceDetails.supplyEndDate) : ''
+    $: dueDate = $invoiceDetails.dueDate ? formatDateToCustomString($invoiceDetails.dueDate) : ''
+
+    $: formattedDates = formatStartDate(startDate, endDate)
+
 </script>
 
 <div class="rounded-md m-[2%] bg-white p-8 border">
@@ -43,7 +48,11 @@
 				<span class="text-right">{$invoiceDetails.invoiceDate ? formatDateToCustomString($invoiceDetails.invoiceDate) : ''}</span>
 
 				<span class="text-left">Supply Dates:</span>
-				<span class="text-right">{placeholderIfBlank(formatDateToCustomString($invoiceDetails.supplyStartDate), '1 Dec 2024')} - {placeholderIfBlank(formatDateToCustomString($invoiceDetails.supplyEndDate), '1 Jan 2025')}</span>
+                {#if $invoiceDetails.supplyStartDate === $invoiceDetails.supplyEndDate && $invoiceDetails.supplyStartDate && $invoiceDetails.supplyEndDate}
+                <span class="text-right">{placeholderIfBlank(formattedDates.endDate, 'End')}</span>
+                {:else}
+				<span class="text-right">{placeholderIfBlank(formattedDates.startDate, 'Start')} - {placeholderIfBlank(formattedDates.endDate, 'End')}</span>
+                {/if}
 			</div>
 		</div>
 	</div>
@@ -63,28 +72,28 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td class="border border-gray-300 p-2 font-mono">Learner 1-to-1 Support</td>
-					<td class="border border-gray-300 p-2 font-mono">20</td>
-					<td class="border border-gray-300 p-2 font-mono">£30</td>
-					<td class="border border-gray-300 p-2 font-mono">£600</td>
+					<td class="border border-gray-300 p-2">Learner 1-to-1 Support</td>
+					<td class="border border-gray-300 p-2">20</td>
+					<td class="border border-gray-300 p-2">£30</td>
+					<td class="border border-gray-300 p-2">£600</td>
 				</tr>
 				<tr>
-					<td class="border border-gray-300 p-2 font-mono">Assignment Marking</td>
-					<td class="border border-gray-300 p-2 font-mono">34.5</td>
-					<td class="border border-gray-300 p-2 font-mono">£30</td>
-					<td class="border border-gray-300 p-2 font-mono">£1035</td>
+					<td class="border border-gray-300 p-2">Assignment Marking</td>
+					<td class="border border-gray-300 p-2">34.5</td>
+					<td class="border border-gray-300 p-2">£30</td>
+					<td class="border border-gray-300 p-2">£1035</td>
 				</tr>
 				<tr>
-					<td class="border border-gray-300 p-2 font-mono">Content Review</td>
-					<td class="border border-gray-300 p-2 font-mono">6</td>
-					<td class="border border-gray-300 p-2 font-mono">£30</td>
-					<td class="border border-gray-300 p-2 font-mono">£180</td>
+					<td class="border border-gray-300 p-2">Content Review</td>
+					<td class="border border-gray-300 p-2">6</td>
+					<td class="border border-gray-300 p-2">£30</td>
+					<td class="border border-gray-300 p-2">£180</td>
 				</tr>
 				<tr>
-					<td class="border border-gray-300 p-2 font-mono">Meetings</td>
-					<td class="border border-gray-300 p-2 font-mono">0.5</td>
-					<td class="border border-gray-300 p-2 font-mono">£30</td>
-					<td class="border border-gray-300 p-2 font-mono">£15</td>
+					<td class="border border-gray-300 p-2">Meetings</td>
+					<td class="border border-gray-300 p-2">0.5</td>
+					<td class="border border-gray-300 p-2">£30</td>
+					<td class="border border-gray-300 p-2">£15</td>
 				</tr>
 			</tbody>
 		</table>
@@ -99,7 +108,7 @@
 				</tr>
 				<tr class="">
 					<th class="w-24 p-1 text-left font-medium">Due Date:</th>
-					<th class="p-1 text-left indent-2"> {placeholderIfBlank(formatDateToCustomString($invoiceDetails.dueDate), '31 Jan 2025')}</th>
+					<th class="p-1 text-left indent-2"> {placeholderIfBlank(dueDate, getLastWorkingDayOfNextMonth())}</th>
 				</tr>
 			</thead>
 		</table>
@@ -121,7 +130,7 @@
 				<span class="text-left">{placeholderIfBlank($payeeDetails.sortCode, '12-34-56')}</span>
 
 				<span class="text-left">Bank Name:</span>
-				<span class="text-left">{placeholderIfBlank($payeeDetails.bankName, 'Chase')}</span>
+				<span class="text-left">{placeholderIfBlank($payeeDetails.bankName, 'Barclays')}</span>
 			</div>
 		</div>
 
