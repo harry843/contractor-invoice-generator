@@ -116,7 +116,9 @@ error={validationErrors.invoiceNumber}
 
 <Select
 label="Currency"
-bind:value={data.currency}>
+bind:value={data.currency}
+on:input ={(e) => {updateStoreOnInput(invoiceDetails,'currency', (e.target as HTMLInputElement).value)}}
+>
 <option value="£">Pounds (£)</option>
 <option value="$">Dollars ($)</option>
 <option value="€">Euros (€)</option>        

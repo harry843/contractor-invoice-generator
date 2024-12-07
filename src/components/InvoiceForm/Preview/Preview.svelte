@@ -1,12 +1,13 @@
 <script lang="ts">
     import { companyDetails, invoiceDetails, invoiceItems, payeeDetails, finishingTouches } from "$lib/store";
-	import { formatDateToCustomString, formatStartDate, getLastWorkingDayOfNextMonth, placeholderIfBlank } from "$lib/utils";
+	import { filterRowsArray, formatDateToCustomString, formatSixDigitInteger, formatStartDate, generateHtmlTableRows, getLastWorkingDayOfNextMonth, placeholderIfBlank } from "$lib/utils";
 
     $: startDate = $invoiceDetails.supplyStartDate ? formatDateToCustomString($invoiceDetails.supplyStartDate) : ''
     $: endDate = $invoiceDetails.supplyEndDate ? formatDateToCustomString($invoiceDetails.supplyEndDate) : ''
     $: dueDate = $invoiceDetails.dueDate ? formatDateToCustomString($invoiceDetails.dueDate) : ''
 
     $: formattedDates = formatStartDate(startDate, endDate)
+	$: sortCode = $payeeDetails.sortCode ? $payeeDetails.sortCode : 123456
 
 </script>
 
@@ -15,7 +16,7 @@
 	<div class="mb-12 flex items-center justify-between">
 		<!-- Logo and Title -->
 		<div class="flex items-center">
-			<img src="hk_logo.png" alt="Company Logo" class="mr-4 h-16 w-16" />
+			<img src="insert-logo.webp" alt="Company Logo" class="mr-4 h-16 w-16" />
 			<h1 class="text-5xl font-bold text-gray-800">INVOICE</h1>
 		</div>
 
@@ -71,30 +72,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td class="border border-gray-300 p-2">Learner 1-to-1 Support</td>
-					<td class="border border-gray-300 p-2">20</td>
-					<td class="border border-gray-300 p-2">£30</td>
-					<td class="border border-gray-300 p-2">£600</td>
+                {#if filterRowsArray($invoiceItems).length > 0}
+				{@html generateHtmlTableRows(filterRowsArray($invoiceItems), $invoiceDetails.currency)}
+                {:else}
+                <tr>
+					<td class="border border-gray-300 p-2">e.g. Data Visualisation Prototyping</td>
+					<td class="border border-gray-300 p-2 italic">hours</td>
+					<td class="border border-gray-300 p-2 italic">rate per hour</td>
+					<td class="border border-gray-300 p-2">{$invoiceDetails.currency}</td>
 				</tr>
-				<tr>
-					<td class="border border-gray-300 p-2">Assignment Marking</td>
-					<td class="border border-gray-300 p-2">34.5</td>
-					<td class="border border-gray-300 p-2">£30</td>
-					<td class="border border-gray-300 p-2">£1035</td>
-				</tr>
-				<tr>
-					<td class="border border-gray-300 p-2">Content Review</td>
-					<td class="border border-gray-300 p-2">6</td>
-					<td class="border border-gray-300 p-2">£30</td>
-					<td class="border border-gray-300 p-2">£180</td>
-				</tr>
-				<tr>
-					<td class="border border-gray-300 p-2">Meetings</td>
-					<td class="border border-gray-300 p-2">0.5</td>
-					<td class="border border-gray-300 p-2">£30</td>
-					<td class="border border-gray-300 p-2">£15</td>
-				</tr>
+                {/if}
 			</tbody>
 		</table>
 	</div>
@@ -104,7 +91,11 @@
 			<thead>
 				<tr class="border-b border-indigo-300">
 					<th class="w-24 p-1 text-left font-medium">Total Due:</th>
-					<th class="p-1 text-left indent-2"> £1830</th>
+                    {#if filterRowsArray($invoiceItems).length > 0}
+					<th class="p-1 text-left indent-2"> {$invoiceDetails.currency}{$invoiceItems.reduce((sum, row) => sum + row.total, 0).toFixed(2)}</th>
+                    {:else}
+                    <th class="p-1 text-left indent-2"> {$invoiceDetails.currency}</th>
+                    {/if}
 				</tr>
 				<tr class="">
 					<th class="w-24 p-1 text-left font-medium">Due Date:</th>
@@ -127,7 +118,7 @@
 				<span class="text-left">{placeholderIfBlank($payeeDetails.accountNumber, '87654321')}</span>
 
 				<span class="text-left">Sort Code:</span>
-				<span class="text-left">{placeholderIfBlank($payeeDetails.sortCode, '12-34-56')}</span>
+				<span class="text-left">{placeholderIfBlank(formatSixDigitInteger(sortCode), '12-34-56')}</span>
 
 				<span class="text-left">Bank Name:</span>
 				<span class="text-left">{placeholderIfBlank($payeeDetails.bankName, 'Barclays')}</span>
@@ -136,7 +127,7 @@
 
 		<div>
 			<p class="pb-1 text-lg font-medium text-gray-800">SIGNATURE:</p>
-			<img src="hk_signature.png" alt="Signature" class="w-52 py-2" />
+			<img src="signature-placeholder.jpg" alt="Signature" class="w-52 py-2" />
 		</div>
 	</div>
 </div>

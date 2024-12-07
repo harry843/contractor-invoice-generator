@@ -166,3 +166,17 @@ export function updateStoreOnInput(store: Writable<{}>,key: any, value: any) {
       return details;
   });
 }
+
+export function formatSixDigitInteger(input: number) {
+  // Convert the input to a string to handle formatting
+  const inputStr = input.toString();
+
+  // Check if the input is exactly 6 digits long
+  if (inputStr.length === 6 && /^[0-9]{6}$/.test(inputStr)) {
+      // Format the string as 12-34-56
+      return `${inputStr.slice(0, 2)}-${inputStr.slice(2, 4)}-${inputStr.slice(4)}`;
+  }
+
+  // Return the input as a string if it's not 6 digits long
+  return inputStr;
+}
