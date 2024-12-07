@@ -30,6 +30,8 @@
 <!-- Information admontion box -->
 <InformationAdmonition {subject} {body} />
 
+<h3 id="placeholder" class="text-sm">* leaving image URLs blank will remove these sections from the pdf download</h3>
+
 <Input
 type="text"
 label="Logo Image URL"
@@ -53,7 +55,8 @@ error={validationErrors.signatureImageUrl}
 
 <Select
 label="Total Due Border Colour"
-bind:value={data.totalBorderColour}>
+bind:value={data.totalBorderColour}
+on:input ={(e) => {updateStoreOnInput(finishingTouches,'totalBorderColour', (e.target as HTMLInputElement).value)}}>
 <option value="indigo">Indigo</option>
 <option value="violet">Violet</option>
 <option value="purple">Purple</option>

@@ -16,7 +16,11 @@
 	<div class="mb-12 flex items-center justify-between">
 		<!-- Logo and Title -->
 		<div class="flex items-center">
+			{#if $finishingTouches.logoImageUrl}
+			<img src={$finishingTouches.logoImageUrl} alt="Company Logo" class="mr-4 h-16 w-16" on:error={(event) => {event.target.onerror = null; event.target.src='not-found.png';}}/>
+			{:else}
 			<img src="insert-logo.webp" alt="Company Logo" class="mr-4 h-16 w-16" />
+			{/if}
 			<h1 class="text-5xl font-bold text-gray-800">INVOICE</h1>
 		</div>
 
@@ -87,9 +91,9 @@
 	</div>
 
 	<div class="mb-12 flex justify-end">
-		<table id="total-due" class="w-[14.285rem] rounded-sm outline outline-1 outline-indigo-600">
+		<table id="total-due" class="w-[14.285rem] rounded-sm outline outline-1 outline-{$finishingTouches.totalBorderColour}-600">
 			<thead>
-				<tr class="border-b border-indigo-300">
+				<tr class="border-b border-{$finishingTouches.totalBorderColour}-300">
 					<th class="w-24 p-1 text-left font-medium">Total Due:</th>
                     {#if filterRowsArray($invoiceItems).length > 0}
 					<th class="p-1 text-left indent-2"> {$invoiceDetails.currency}{$invoiceItems.reduce((sum, row) => sum + row.total, 0).toFixed(2)}</th>
@@ -127,7 +131,13 @@
 
 		<div>
 			<p class="pb-1 text-lg font-medium text-gray-800">SIGNATURE:</p>
-			<img src="signature-placeholder.jpg" alt="Signature" class="w-52 py-2" />
+			{#if $finishingTouches.signatureImageUrl}
+			<img src={$finishingTouches.signatureImageUrl} alt="Signature" class="w-52 py-2" on:error={(event) => {event.target.onerror = null; event.target.src='not-found.png';}} />
+			{:else}
+			<div class="flex items-start">
+			<img src="signature-placeholder.jpg" alt="Signature" class=" items-start w-52 py-2" />
+			</div>
+			{/if}
 		</div>
 	</div>
 </div>
