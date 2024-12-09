@@ -142,6 +142,7 @@ max={new Date().toISOString().split('T')[0]}
 bind:value={data.supplyStartDate}
 on:change={(e) => handleFutureDate(e, (val) => (data.supplyStartDate = val))}
 on:input ={(e) => {updateStoreOnInput(invoiceDetails,'supplyStartDate', (e.target as HTMLInputElement).value)}}
+tooltipText={"The date when the service was first provided"}
 error={validationErrors.supplyStartDate}
 />
 
@@ -153,6 +154,7 @@ min={new Date(new Date().getFullYear() - 5, 0, 1).toISOString().split('T')[0]}
 bind:value={data.supplyEndDate}
 on:change={(e) => handleDateChange(e, (val) => (data.supplyEndDate = val))}
 on:input ={(e) => {updateStoreOnInput(invoiceDetails,'supplyEndDate', (e.target as HTMLInputElement).value)}}
+tooltipText={"The date when the service ended"}
 error={validationErrors.supplyEndDate}
 
 />

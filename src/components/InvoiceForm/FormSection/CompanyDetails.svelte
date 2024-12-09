@@ -118,11 +118,19 @@ error={validationErrors.billingCompanyAddressLine2}
 />
 
 <Input
-type="number"
+type="text"
 label="Company Registration Number"
 required = {false}
 bind:value={data.billingCompanyRegistrationNumber}
-on:input ={(e) => {updateStoreOnInput(companyDetails,'billingCompanyRegistrationNumber', (e.target as HTMLInputElement).value)}}
+on:input ={(e) => {
+    const input = e.target.value;
+    if (input.length > 8) {
+      e.target.value = input.slice(0, 8); // Truncate to 8 digits
+    }
+    updateStoreOnInput(companyDetails,'billingCompanyRegistrationNumber', (e.target as HTMLInputElement).value)
+    }
+    }
+tooltipText={"A unique code that identifies a company, typically 8 characters long"}
 />
 
 <Forward {step} {goToNext} />

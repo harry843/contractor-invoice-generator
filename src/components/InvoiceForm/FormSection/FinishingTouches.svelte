@@ -30,8 +30,6 @@
 <!-- Information admontion box -->
 <InformationAdmonition {subject} {body} />
 
-<h3 id="placeholder" class="text-sm">* leaving image URLs blank will remove these sections from the pdf download</h3>
-
 <Input
 type="text"
 label="Logo Image URL"
@@ -39,6 +37,7 @@ placeholder = 'Public Image URL'
 required={false}
 bind:value={data.logoImageUrl}
 on:input ={(e) => {updateStoreOnInput(finishingTouches,'logoImageUrl', (e.target as HTMLInputElement).value)}}
+tooltipText={'Leaving this field blank will remove the placeholder logo from the pdf output'}
 error={validationErrors.logoImageUrl}
 
 />
@@ -50,6 +49,7 @@ placeholder = 'Public Image URL'
 required={false}
 bind:value={data.signatureImageUrl}
 on:input ={(e) => {updateStoreOnInput(finishingTouches,'signatureImageUrl', (e.target as HTMLInputElement).value)}}
+tooltipText={'Leaving this field blank will remove the placeholder signature from the pdf output'}
 error={validationErrors.signatureImageUrl}
 />
 

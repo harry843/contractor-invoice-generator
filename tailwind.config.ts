@@ -15,6 +15,7 @@ export default {
 		'dark:bg-emerald-600',
 		'dark:hover:bg-emerald-700',
 		'bg-red-600',
+		'bg-slate-600',
 		'outline-indigo-600',
 		'outline-violet-600',
 		'outline-purple-600',

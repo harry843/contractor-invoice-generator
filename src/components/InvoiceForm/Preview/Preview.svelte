@@ -11,7 +11,7 @@
 
 </script>
 
-<div class="rounded-md m-[2%] bg-white p-8 border">
+<div class="">
 	<!-- Header with Logo, Title, and Contact Details -->
 	<div class="mb-12 flex items-center justify-between">
 		<!-- Logo and Title -->
