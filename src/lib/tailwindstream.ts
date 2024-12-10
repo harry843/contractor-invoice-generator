@@ -332,14 +332,14 @@ export const handlebarsTemplate = {
 	<div class="mb-3 mt-6">
 		<table
 			id="invoice-table"
-			class="w-full rounded-sm text-left outline outline-1 outline-gray-300"
+			class="w-full rounded-sm text-left outline outline-1 outline-{{tableBorderColour}}-300"
 		>
 			<thead>
-				<tr class="bg-gray-100 font-customHeading">
-					<th class="border border-gray-300 p-2 font-medium">Task Description</th>
-					<th class="border border-gray-300 p-2 font-medium">Hours</th>
-					<th class="border border-gray-300 p-2 font-medium">Rate</th>
-					<th class="border border-gray-300 p-2 font-medium">Total</th>
+				<tr class="bg-{{tableBorderColour}}-100 font-customHeading">
+					<th class="border border-{{tableBorderColour}}-300 p-2 font-medium">Task Description</th>
+					<th class="border border-{{tableBorderColour}}-300 p-2 font-medium">Hours</th>
+					<th class="border border-{{tableBorderColour}}-300 p-2 font-medium">Rate</th>
+					<th class="border border-{{tableBorderColour}}-300 p-2 font-medium">Total</th>
 				</tr>
 			</thead>
 			<tbody>

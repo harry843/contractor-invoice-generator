@@ -65,25 +65,25 @@
 	<div class="mb-3 mt-6">
 		<table
 			id="invoice-table"
-			class="w-full rounded-sm text-left outline outline-1 outline-gray-300"
+			class="w-full rounded-sm text-left outline outline-1 outline-{$finishingTouches.tableBorderColour}-300"
 		>
 			<thead>
-				<tr class="bg-gray-100 font-sans font-medium">
-					<th class="border border-gray-300 p-2 font-medium">Task Description</th>
-					<th class="border border-gray-300 p-2 font-medium">Hours</th>
-					<th class="border border-gray-300 p-2 font-medium">Rate</th>
-					<th class="border border-gray-300 p-2 font-medium">Total</th>
+				<tr class="bg-{$finishingTouches.tableBorderColour}-100 font-sans font-medium">
+					<th class="border border-{$finishingTouches.tableBorderColour}-300 p-2 font-medium">Task Description</th>
+					<th class="border border-{$finishingTouches.tableBorderColour}-300 p-2 font-medium">Hours</th>
+					<th class="border border-{$finishingTouches.tableBorderColour}-300 p-2 font-medium">Rate</th>
+					<th class="border border-{$finishingTouches.tableBorderColour}-300 p-2 font-medium">Total</th>
 				</tr>
 			</thead>
 			<tbody>
                 {#if filterRowsArray($invoiceItems).length > 0}
-				{@html generateHtmlTableRows(filterRowsArray($invoiceItems), $invoiceDetails.currency)}
+				{@html generateHtmlTableRows(filterRowsArray($invoiceItems), $invoiceDetails.currency, $finishingTouches.tableBorderColour)}
                 {:else}
                 <tr>
-					<td class="border border-gray-300 p-2">e.g. Data Visualisation Prototyping</td>
-					<td class="border border-gray-300 p-2 italic">hours</td>
-					<td class="border border-gray-300 p-2 italic">rate per hour</td>
-					<td class="border border-gray-300 p-2">{$invoiceDetails.currency}</td>
+					<td class="border border-{$finishingTouches.tableBorderColour}-300 p-2">e.g. Data Visualisation Prototyping</td>
+					<td class="border border-{$finishingTouches.tableBorderColour}-300 p-2 italic">hours</td>
+					<td class="border border-{$finishingTouches.tableBorderColour}-300 p-2 italic">rate per hour</td>
+					<td class="border border-{$finishingTouches.tableBorderColour}-300 p-2">{$invoiceDetails.currency}</td>
 				</tr>
                 {/if}
 			</tbody>

@@ -29,6 +29,7 @@
     logoImageUrl: '',
     signatureImageUrl: '',
     totalBorderColour: 'indigo',
+    tableBorderColour: 'gray',
     invoiceHtmlString: undefined,
     };
 

@@ -75,7 +75,7 @@ export function filterRowsArray(arr: invoiceRow[]) {
   return arr.filter(item => !(item.description === '' && item.hours === null && item.rate === null && item.total === 0));
 }
 
-export function generateHtmlTableRows(rows: invoiceRow[], currency: string) {
+export function generateHtmlTableRows(rows: invoiceRow[], currency: string, tableBorderColour: string) {
   // Preprocess rows to fix rate and total to 2 decimal places
   const formattedRows = rows.map(row => ({
     ...row,
@@ -88,10 +88,10 @@ export function generateHtmlTableRows(rows: invoiceRow[], currency: string) {
       (row) => 
         `
         <tr>
-          <td class="border border-gray-300 p-2">${row.description}</td>
-          <td class="border border-gray-300 p-2">${row.hours}</td>
-          <td class="border border-gray-300 p-2">${currency}${row.rate}</td>
-          <td class="border border-gray-300 p-2">${currency}${row.total}</td>
+          <td class="border border-${tableBorderColour}-300 p-2">${row.description}</td>
+          <td class="border border-${tableBorderColour}-300 p-2">${row.hours}</td>
+          <td class="border border-${tableBorderColour}-300 p-2">${currency}${row.rate}</td>
+          <td class="border border-${tableBorderColour}-300 p-2">${currency}${row.total}</td>
         </tr>
       `
     )

@@ -54,6 +54,33 @@ error={validationErrors.signatureImageUrl}
 />
 
 <Select
+label="Table Border Colour"
+bind:value={data.tableBorderColour}
+on:input ={(e) => {updateStoreOnInput(finishingTouches,'tableBorderColour', (e.target as HTMLInputElement).value)}}>
+<option value="indigo">Indigo</option>
+<option value="violet">Violet</option>
+<option value="purple">Purple</option>
+<option value="teal">Teal</option>
+<option value="cyan">Cyan</option>
+<option value="sky">Sky</option>
+<option value="blue">Blue</option>
+<option value="fuchsia">Fuchsia</option>
+<option value="red">Red</option>
+<option value="rose">Rose</option>
+<option value="pink">Pink</option>
+<option value="orange">Orange</option>
+<option value="amber">Amber</option>
+<option value="yellow">Yellow</option>
+<option value="lime">Lime</option>
+<option value="green">Green</option>
+<option value="emerald">Emerald</option>
+<option value="slate">Slate</option>
+<option value="gray">Grey</option>
+<option value="zinc">Zinc</option>
+<option value="stone">Stone</option>
+</Select>
+
+<Select
 label="Total Due Border Colour"
 bind:value={data.totalBorderColour}
 on:input ={(e) => {updateStoreOnInput(finishingTouches,'totalBorderColour', (e.target as HTMLInputElement).value)}}>
@@ -75,7 +102,7 @@ on:input ={(e) => {updateStoreOnInput(finishingTouches,'totalBorderColour', (e.t
 <option value="green">Green</option>
 <option value="emerald">Emerald</option>
 <option value="slate">Slate</option>
-<option value="grey">Grey</option>
+<option value="gray">Grey</option>
 <option value="zinc">Zinc</option>
 <option value="stone">Stone</option>
 </Select>

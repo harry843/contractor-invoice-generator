@@ -38,6 +38,7 @@ export const finishingTouches: Writable<FinishingTouches> = writable(
         logoImageUrl: '',
         signatureImageUrl: '',
         totalBorderColour: 'indigo',
+        tableBorderColour: 'gray'
     }
 );
 

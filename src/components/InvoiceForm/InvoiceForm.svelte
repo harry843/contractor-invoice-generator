@@ -1,59 +1,23 @@
 <script lang='ts'>
-	import { requestDownload, downloadDocument, downloadToBrowser } from "$lib/tailwindstream";
-	import { validateFutureDate, validateMinDate, validateMaxDate, formatDateToCustomString, isValidUrl, filterRowsArray, generateHtmlTableRows } from '$lib/utils';
-	import type { ValidationErrors } from '$lib/types';
-	import LoadingSpinner from '../LoadingSpinner.svelte';
-	import { invoiceItems, currentStep, payeeDetails } from '$lib/store';
+	import { currentStep } from '$lib/store';
 	import Stepper from './Stepper/Stepper.svelte';
-	import Input from "./FormElements/Input.svelte";
-	import Select from "./FormElements/Select.svelte";
 	import InvoiceRow from "./FormSection/InvoiceItems.svelte";
-	import Button from "./FormElements/Button.svelte";
-	import Navigation from "./FormElements/Forward.svelte";
 	import CompanyDetails from "./FormSection/CompanyDetails.svelte";
 	import InvoiceDetails from "./FormSection/InvoiceDetails.svelte";
 	import Back from "./FormElements/Back.svelte";
 	import PayeeDetails from "./FormSection/PayeeDetails.svelte";
-	import FinishingTouches from "./FormSection/FinishingTouches.svelte";
-	import DownloadInvoice from "./FormElements/DownloadInvoice.svelte";
 	import SubmissionPage from "./FormSection/SubmissionPage.svelte";
 	
 	export let data;
 	export let payload;
 
 	// Navigation functions
-	const goToNext = () => currentStep.update(n => Math.min(n + 1, 5));
     const goToPrevious = () => currentStep.update(n => Math.max(n - 1, 1));
 
   	// Fetch current step for the UI
   	let step = 1;
   	currentStep.subscribe(value => step = value);
 	
-
-	// let validationErrors: ValidationErrors = {
-	// 	businessName: null,
-	// 	businessAddressLine1: null,
-	// 	businessAddressLine2: null,
-	// 	billingCompanyName: null,
-	// 	billingCompanyAddressLine1: null,
-	// 	billingCompanyAddressLine2: null,
-	// 	invoiceNumber: null,
-	// 	invoiceDate: null,
-	// 	supplyStartDate: null,
-	// 	supplyEndDate: null,
-	// 	logoImageUrl: null,
-	// 	signatureImageUrl: null,
-	// 	dueDate: null,
-	// 	accountName: null,
-	// 	accountNumber: null,
-	// 	sortCode: null,
-	// 	bankName: null,
-	// 	invoiceRow: null,
-	// };
-
-
-
-
 </script>
 <div>
 	<!-- Progress step tracker -->

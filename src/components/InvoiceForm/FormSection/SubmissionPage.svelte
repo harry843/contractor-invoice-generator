@@ -72,8 +72,9 @@
 			logoImageUrl: ft.logoImageUrl,
 			signatureImageUrl: ft.signatureImageUrl,
 			totalBorderColour: ft.totalBorderColour,
+			tableBorderColour: ft.tableBorderColour,
 			currency: id.currency,
-			invoiceHtmlString: generateHtmlTableRows(filterRowsArray($invoiceItems), id.currency)
+			invoiceHtmlString: generateHtmlTableRows(filterRowsArray($invoiceItems), id.currency, ft.tableBorderColour)
 		});
 
 

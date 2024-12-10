@@ -20,6 +20,7 @@ export interface InvoiceData {
     sortCode: number | undefined,
     bankName: string | undefined,
     totalBorderColour: string
+    tableBorderColour: string,
     invoiceHtmlString: string | undefined,
 }
 
@@ -87,5 +88,6 @@ export interface PayeeDetails {
 export interface FinishingTouches {
     logoImageUrl: string | undefined,
     signatureImageUrl: string | undefined,
-    totalBorderColour: string
+    totalBorderColour: string,
+    tableBorderColour: string
 }
