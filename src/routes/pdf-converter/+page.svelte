@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { handlebarsTemplate } from "$lib/tailwindstream";
+    import { invoiceTemplate } from "$lib/tailwindstream";
     import type { PayloadInput } from "$lib/tailwindstream";
     import type { InvoiceData } from "$lib/types";
 	import { onMount } from "svelte";
@@ -34,7 +34,7 @@
     };
 
     let payload: PayloadInput = {
-      html: handlebarsTemplate.html,
+      html: invoiceTemplate.html,
       engine: "handlebars",
       data: data,
       output: "pdf",

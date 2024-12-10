@@ -10,8 +10,7 @@
     export let step;
     export let validationErrors;
 
-    // Subscribe to the store
-    $: data = $finishingTouches; // Reactive subscription to the store
+    $: data = $finishingTouches;
 
     let subject = 'Add your own images!'
 

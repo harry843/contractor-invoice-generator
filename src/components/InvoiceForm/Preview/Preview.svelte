@@ -19,7 +19,7 @@
 			{#if $finishingTouches.logoImageUrl}
 			<img src={$finishingTouches.logoImageUrl} alt="Company Logo" class="mr-4 h-16 w-16" on:error={(event) => {event.target.onerror = null; event.target.src='not-found.png';}}/>
 			{:else}
-			<img src="insert-logo.webp" alt="Company Logo" class="mr-4 h-16 w-16" />
+			<img src="insert-logo.png" alt="Company Logo" class="mr-4 h-16 w-16" />
 			{/if}
 			<h1 class="text-5xl font-bold text-gray-800">INVOICE</h1>
 		</div>
@@ -135,7 +135,7 @@
 			<img src={$finishingTouches.signatureImageUrl} alt="Signature" class="w-52 py-2" on:error={(event) => {event.target.onerror = null; event.target.src='not-found.png';}} />
 			{:else}
 			<div class="flex items-start">
-			<img src="signature-placeholder.jpg" alt="Signature" class=" items-start w-52 py-2" />
+			<img src="insert-signature.png" alt="Signature" class=" items-start w-52 py-2" />
 			</div>
 			{/if}
 		</div>

@@ -25,6 +25,8 @@
         signatureImageUrl: null
     }
 
+	const invoiceNumber = $invoiceDetails.invoiceNumber ? $invoiceDetails.invoiceNumber : ''
+
 
 	const validate = () => {
         const errors: Partial<ValidationErrors> = {
@@ -100,7 +102,7 @@
 				}
 
 				if (blob) {
-					downloadToBrowser(blob);
+					downloadToBrowser(blob, invoiceNumber);
 				}
 			}
 		} catch (err) {
