@@ -27,5 +27,30 @@
 	</Button>
 
 {#if error}
-<span class="block text-xs font-normal text-red-500">{error}</span>
+<div class="flex flex-row items-center pl-0.5">
+<svg
+xmlns="http://www.w3.org/2000/svg"
+viewBox="0 0 2 2"
+class="w-4 h-4"
+>
+<!-- Circle with Tailwind styling -->
+<circle
+  cx="1"
+  cy="1"
+  r="1"
+  class="fill-red-600"
+/>
+<!-- First diagonal line -->
+<polyline
+  points="0.5,0.5 1.5,1.5"
+  class="fill-none stroke-white stroke-[0.135] stroke-linecap-round"
+/>
+<!-- Second diagonal line -->
+<polyline
+  points="0.5,1.5 1.5,0.5"
+  class="fill-none stroke-white stroke-[0.135] stroke-linecap-round"
+/>
+</svg>
+<span class="block text-xs font-normal text-red-500 ml-1.5">{error}</span>
+</div>
 {/if}
