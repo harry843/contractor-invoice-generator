@@ -63,8 +63,9 @@
 
 <h1 class="text-xl py-2.5 font-semibold text-center font-customHeading">Company Details</h1>
 
-<h2 class="font-medium text-base pb-2.5">Your Company</h2>
+<h2 class="font-medium text-base font-customHeading pb-2.5">Your Company</h2>
 
+<div class="ml-1.5 md:ml-3">
 <Input 
 type="text" 
 label="Business Name" 
@@ -89,9 +90,13 @@ bind:value={data.businessAddressLine2}
 on:input ={(e) => {updateStoreOnInput(companyDetails,'businessAddressLine2', (e.target as HTMLInputElement).value)}}
 error={validationErrors.businessAddressLine2} 
 />
+</div>
 
-<h2 class="font-medium text-base py-2">Billed To</h2>
+<div class="h-0.5 w-48 my-2 mt-5 bg-gray-200"></div>
 
+<h2 class="font-medium text-base font-customHeading py-2">Billed To</h2>
+
+<div class="ml-1.5 md:ml-3">
 <Input
 type="text"
 label="Company Name"
@@ -132,6 +137,7 @@ on:input ={(e) => {
     }
 tooltipText={"A unique code that identifies a company, typically 8 characters long"}
 />
+</div>
 
 <Forward {step} {goToNext} />
 

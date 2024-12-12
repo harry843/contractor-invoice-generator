@@ -2,10 +2,10 @@
     import { invoiceTemplate } from "$lib/tailwindstream";
     import type { PayloadInput } from "$lib/tailwindstream";
     import type { InvoiceData } from "$lib/types";
-	import { onMount } from "svelte";
+	  import { onMount } from "svelte";
 	  import InvoiceForm from "../../components/InvoiceForm/InvoiceForm.svelte";
-	import Preview from "../../components/InvoiceForm/Preview/Preview.svelte";
-	import Button from "../../components/InvoiceForm/FormElements/Button.svelte";
+	  import Preview from "../../components/InvoiceForm/Preview/Preview.svelte";
+	  import Button from "../../components/InvoiceForm/FormElements/Button.svelte";
 
     let data: InvoiceData = {
     businessName: '',
