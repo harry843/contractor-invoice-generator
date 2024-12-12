@@ -105,7 +105,7 @@ export default {
 		'border-zinc-300',
 		'border-neutral-300',
 	  ],
-
+	darkMode: 'class',
 	theme: {
 		extend: {
 			colors: {
@@ -118,5 +118,5 @@ export default {
 		}
 	},
 
-	plugins: [typography, forms]
+	plugins: []
 } satisfies Config;
