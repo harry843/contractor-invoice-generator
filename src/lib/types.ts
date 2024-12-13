@@ -91,3 +91,29 @@ export interface FinishingTouches {
     totalBorderColour: string,
     tableBorderColour: string
 }
+
+export interface DemoVariables {
+    businessName: string;
+    businessAddressLine1: string;
+    businessAddressLine2: string;
+    billingCompanyName: string;
+    billingCompanyAddressLine1: string;
+    billingCompanyAddressLine2: string;
+    invoiceNumber: string;
+    invoiceDate: string;
+    supplyDates: string;
+    taskDescription1: string;
+    taskHours1: string;
+    taskRate1: string;
+    taskTotal1: string;
+    taskDescription2: string;
+    taskHours2: string;
+    taskRate2: string;
+    taskTotal2: string;
+    totalDue: string;
+    dueDate: string;
+    accountName: string;
+    accountNumber: string;
+    sortCode: string;
+    bankName: string;
+}

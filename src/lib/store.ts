@@ -1,5 +1,6 @@
 import { writable, type Writable } from "svelte/store";
 import type { CompanyDetails, FinishingTouches, InvoiceDetails, PayeeDetails, ValidationErrors } from "./types";
+import { getFirstDayOfMonth, getLastDayOfMonth, getLastWorkingDayOfNextMonth, getTodaysDate } from "./utils";
 
 export const companyDetails: Writable<CompanyDetails> = writable(
     {
@@ -60,3 +61,32 @@ export const invoiceItems = writable([
   ]);
 
 export const currentStep = writable(1);
+
+export const demoVariables = writable(
+    {
+        businessName: 'Harry Kelleher',
+        businessAddressLine1: 'Address Line 1',
+        businessAddressLine2: 'Address Line 2',
+        billingCompanyName: 'Billing Company Name',
+        billingCompanyAddressLine1: 'Address Line 1',
+        billingCompanyAddressLine2: 'Address Line 2',
+        billingCompanyRegistrationNumber: '12345678',
+        invoiceNumber: '#123456',
+        invoiceDate: getTodaysDate(),
+        dueDate: getLastWorkingDayOfNextMonth(),
+        supplyDates: `${getFirstDayOfMonth().slice(0, -5)} - ${getLastDayOfMonth()}`,
+        taskDescription1: 'Design Prototyping',
+        taskHours1: '20',
+        taskRate1: '£30',
+        taskTotal1: '£600',
+        taskDescription2: 'Data Pipeline Implementation',
+        taskHours2: '30',
+        taskRate2: '£40',
+        taskTotal2: '£1200',
+        totalDue: '£1800.00',
+        accountName: 'Mr Harry Kelleher',
+        accountNumber: '87654321',
+        sortCode: '12-34-56',
+        bankName: 'Barclays'
+    }
+)

@@ -127,6 +127,43 @@ if (startYear === endYear) {
 return { startDate, endDate };
 }
 
+export function getFirstDayOfMonth() {
+  // Create a new Date object for the current date
+  const now = new Date();
+
+  // Get the year and month of the current date
+  const year = now.getFullYear();
+  const month = now.getMonth(); // January is 0
+
+  // Create a new Date object for the first day of the current month
+  const firstDay = new Date(year, month, 1);
+
+  // Format the date as '01 Dec 2024'
+  const day = String(firstDay.getDate()).padStart(2, '0'); // Always two digits
+  const monthName = firstDay.toLocaleString('en-US', { month: 'short' }); // Short month name
+  const formattedDate = `${day} ${monthName} ${year}`;
+
+  return formattedDate;
+}
+
+export function getLastDayOfMonth() {
+  // Create a new Date object for the current date
+  const now = new Date();
+
+  // Get the year and month of the current date
+  const year = now.getFullYear();
+  const month = now.getMonth(); // January is 0
+
+  // Create a new Date object for the last day of the current month
+  const lastDay = new Date(year, month + 1, 0); // Day 0 of the next month is the last day of the current month
+
+  // Format the date as '31 Dec 2024'
+  const day = String(lastDay.getDate()).padStart(2, '0'); // Always two digits
+  const monthName = lastDay.toLocaleString('en-US', { month: 'short' }); // Short month name
+  const formattedDate = `${day} ${monthName} ${year}`;
+
+  return formattedDate;
+}
 
 export function getLastWorkingDayOfNextMonth() {
   const today = new Date();
@@ -155,6 +192,19 @@ export function getLastWorkingDayOfNextMonth() {
   return `${day} ${month} ${year}`;
 }
 
+export function getTodaysDate() {
+  // Create a new Date object for the current date
+  const now = new Date();
+
+  // Get the year, month, and day of the current date
+  const year = now.getFullYear();
+  const monthName = now.toLocaleString('en-US', { month: 'short' }); // Short month name
+  const day = String(now.getDate()).padStart(2, '0'); // Always two digits
+
+  const formattedDate = `${day} ${monthName} ${year}`;
+
+  return formattedDate;
+}
 
 export function placeholderIfBlank(input:string | number | Date | undefined, placeholder:string) {
     return input ? input : placeholder;
