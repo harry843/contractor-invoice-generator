@@ -1,16 +1,26 @@
 <script lang="ts">
     import { demoVariables } from "$lib/store";
+    import { onMount } from 'svelte';
 
     $: data = $demoVariables
+
+    let firstInput: { focus: () => void; };
 
     // Update function to bind changes to the store
     function updateField(field: keyof typeof $demoVariables, value: string) {
         $demoVariables[field] = value;
     }
+
+     // Set focus on the first input when the component is mounted
+  onMount(() => {
+    if (firstInput) {
+      firstInput.focus();
+    }
+  })
 </script>
 
 <section class="py-4">
-    <div class="w-full md:w-2/3 bg-white shadow-md mx-auto p-8 sm:p-16">
+    <div class="w-full md:w-2/3 max-w-[210mm] h-[294mm] bg-white border shadow-md border-gray-100 mx-auto p-8 sm:p-16">
 	<!-- Header with Logo, Title, and Contact Details -->
 	<div class="mb-12 flex items-center justify-between">
 		<!-- Logo and Title -->
@@ -21,13 +31,13 @@
 
 		<!-- Contact Details and Address -->
 		<div id="contact-details" class="text-left">
-			<p contenteditable="true" class="font-semibold border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md mb-0.5" 
+			<p contenteditable="true" bind:this={firstInput} class="font-semibold border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md mb-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                on:input={(e) => updateField('businessName', e.target.textContent)}>
                {data.businessName}</p>
-			<p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md"
+			<p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                on:input={(e) => updateField('businessAddressLine1', e.target.textContent)}>
                {data.businessAddressLine1}</p>
-			<p contenteditable="true"  class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md"
+			<p contenteditable="true"  class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                on:input={(e) => updateField('businessAddressLine2', e.target.textContent)}>
                {data.businessAddressLine2}</p>
 		</div>
@@ -36,16 +46,16 @@
 	<div class="mb-12 flex items-start justify-between text-gray-700">
 		<div id="billed-to" class="mt-6">
 			<h2 class="pb-1 text-lg font-medium text-gray-800">BILLED TO:</h2>
-            <p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md"
+            <p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                on:input={(e) => updateField('billingCompanyName', e.target.textContent)}>
                {data.billingCompanyName}</p>
-			<p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md"
+			<p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                on:input={(e) => updateField('billingCompanyAddressLine1', e.target.textContent)}>
                {data.billingCompanyAddressLine1}</p>
-			<p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md"
+			<p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                on:input={(e) => updateField('billingCompanyAddressLine2', e.target.textContent)}>
                {data.billingCompanyAddressLine2}</p>
-			<p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md"
+			<p contenteditable="true" class="border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                on:input={(e) => updateField('billingCompanyRegistrationNumber', e.target.textContent)}>
                {data.billingCompanyRegistrationNumber}</p>
 		</div>
@@ -56,17 +66,17 @@
 			</h2>
 			<div id="invoice-info" class="grid w-80 grid-cols-2 grid-cols-[40%_60%] text-gray-700">
 				<span class="text-left">Invoice Number:</span>
-				<span contenteditable="true" class="text-right border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md" 
+				<span contenteditable="true" class="text-right border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                     on:input={(e) => updateField('invoiceNumber', e.target.textContent)}>
                     {data.invoiceNumber}</span>
 
 				<span class="text-left">Invoice Date:</span>
-				<span contenteditable="true" class="text-right border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md" 
+				<span contenteditable="true" class="text-right border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                     on:input={(e) => updateField('invoiceDate', e.target.textContent)}>
                     {data.invoiceDate}</span>
 
 				<span class="text-left">Supply Dates:</span>
-				<span contenteditable="true" class="text-right border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md" 
+				<span contenteditable="true" class="text-right border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                     on:input={(e) => updateField('supplyDates', e.target.textContent)}>
                     {data.supplyDates}</span>
 			</div>
@@ -124,13 +134,13 @@
 			<thead>
 				<tr class="border-b border-indigo-300">
 					<th class="w-24 p-1 text-left font-medium">Total Due:</th>
-					<th contenteditable="true" class="p-1 text-left indent-2" 
+					<th contenteditable="true" class="p-1 text-left indent-2 rounded-md " 
                         on:input={(e) => updateField('totalDue', e.target.textContent)}>
                         {data.totalDue}</th>
 				</tr>
 				<tr class="">
 					<th class="w-24 p-1 text-left font-medium">Due Date:</th>
-					<th contenteditable="true" class="p-1 text-left indent-2" 
+					<th contenteditable="true" class="p-1 text-left indent-2 rounded-md" 
                         on:input={(e) => updateField('dueDate', e.target.textContent)}>
                         {data.dueDate}</th>
 				</tr>
@@ -145,22 +155,22 @@
 			</h2>
 			<div id="invoice-info" class="grid w-80 grid-cols-2 gap-x-2 text-gray-700">
 				<span class="text-left">Account Name:</span>
-				<span contenteditable="true" class="text-left border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md" 
+				<span contenteditable="true" class="text-left border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                     on:input={(e) => updateField('accountName', e.target.textContent)}>
                     {data.accountName}</span>
 
 				<span class="text-left">Account Number:</span>
-				<span contenteditable="true" class="text-left border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md" 
+				<span contenteditable="true" class="text-left border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                     on:input={(e) => updateField('accountNumber', e.target.textContent)}>
                     {data.accountNumber}</span>
 
 				<span class="text-left">Sort Code:</span>
-				<span contenteditable="true" class="text-left border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md" 
+				<span contenteditable="true" class="text-left border border-gray-500 dark:border-gray-200 px-2 py-0.5 mb-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                     on:input={(e) => updateField('sortCode', e.target.textContent)}>
                     {data.sortCode}</span>
 
 				<span class="text-left">Bank Name:</span>
-				<span contenteditable="true" class="text-left border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md" 
+				<span contenteditable="true" class="text-left border border-gray-500 dark:border-gray-200 px-2 py-0.5 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" 
                     on:input={(e) => updateField('bankName', e.target.textContent)}>
                     {data.bankName}</span>
 			</div>
