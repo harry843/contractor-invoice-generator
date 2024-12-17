@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { invoiceTemplate } from "$lib/tailwindstream";
+    import { invoiceTemplate } from "$lib/htmltemplates";
     import type { PayloadInput } from "$lib/tailwindstream";
     import type { InvoiceData } from "$lib/types";
 	  import { onMount } from "svelte";
@@ -44,7 +44,7 @@
     let isWideEnough = true;
 
     const checkScreenWidth = () => {
-      isWideEnough = window.innerWidth >= 1024; // Example breakpoint for A4 side-by-side
+      isWideEnough = window.innerWidth >= 1024;
     };
 
     onMount(() => {
