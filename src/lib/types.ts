@@ -117,3 +117,29 @@ export interface DemoVariables {
     sortCode: string;
     bankName: string;
 }
+
+export interface RemoveBorder {
+    businessName: boolean;
+    businessAddressLine1: boolean;
+    businessAddressLine2: boolean;
+    billingCompanyName: boolean;
+    billingCompanyAddressLine1: boolean;
+    billingCompanyAddressLine2: boolean;
+    invoiceNumber: boolean;
+    invoiceDate: boolean;
+    supplyDates: boolean;
+    taskDescription1: boolean;
+    taskHours1: boolean;
+    taskRate1: boolean;
+    taskTotal1: boolean;
+    taskDescription2: boolean;
+    taskHours2: boolean;
+    taskRate2: boolean;
+    taskTotal2: boolean;
+    totalDue: boolean;
+    dueDate: boolean;
+    accountName: boolean;
+    accountNumber: boolean;
+    sortCode: boolean;
+    bankName: boolean;
+}

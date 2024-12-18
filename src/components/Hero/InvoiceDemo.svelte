@@ -4,10 +4,10 @@
     import { onMount } from 'svelte';
 	import DownloadInvoice from "../InvoiceForm/FormElements/DownloadInvoice.svelte";
 	import { invoiceDemo } from "$lib/htmltemplates";
-	import ContentEditableFirstP from "./ContentEditableFirstP.svelte";
 	import ContentEditableTd from "./ContentEditableTD.svelte";
 	import ContentEditableTh from "./ContentEditableTH.svelte";
 	import ContentEditable from "./ContentEditableP.svelte";
+	import type { RemoveBorder } from "$lib/types";
 
     $: data = $demoVariables
 
@@ -29,6 +29,33 @@
 	let btnText = `Download`;
 
     let firstInput: { focus: () => void; };
+    let removeBorder: RemoveBorder = 
+    {
+    businessName: false,
+    businessAddressLine1: false,
+    businessAddressLine2: false,
+    billingCompanyName: false,
+    billingCompanyAddressLine1: false,
+    billingCompanyAddressLine2: false,
+    invoiceNumber: false,
+    invoiceDate: false,
+    supplyDates: false,
+    taskDescription1: false,
+    taskHours1: false,
+    taskRate1: false,
+    taskTotal1: false,
+    taskDescription2: false,
+    taskHours2: false,
+    taskRate2: false,
+    taskTotal2: false,
+    totalDue: false,
+    dueDate: false,
+    accountName: false,
+    accountNumber: false,
+    sortCode: false,
+    bankName: false,
+}
+
 
     // Update function to bind changes to the store
     function updateField(field: keyof typeof $demoVariables, value: string) {
@@ -82,24 +109,34 @@
     }
 
     // Handle keydown events (to ensure left-to-right text)
-    function handleKeyDown(e: { target: any; }) {
+    function handleKeyDown(e: { target: any; }, key: keyof typeof $demoVariables) {
         const element = e.target;
 
+        // Set text-align right to left for invoice info
+        if (!element.hasAttribute("dir") && ['invoiceNumber', 'invoiceDate', 'supplyDates'].includes(key)) {
+            element.setAttribute("dir", "ltr");
+            element.style.textAlign = "right"; // Align text to the left
+            element.style.unicodeBidi = "isolate"; // Prevent the text direction change
+        }
         // Ensure the text direction is left-to-right
-        if (!element.hasAttribute("dir")) {
+        else if (!element.hasAttribute("dir")) {
             element.setAttribute("dir", "ltr");
             element.style.textAlign = "left"; // Align text to the left
             element.style.unicodeBidi = "isolate"; // Prevent the text direction change
         }
     }
 
+
     // When user finishes editing, update the store
-    function handleBlur(key: keyof typeof $demoVariables) {
+    function handleBlur(key: keyof RemoveBorder) {
         const tempValue = tempValues[key] || ''; // Use the temporary value
         updateField(key, tempValue); // Commit the temp value to the store
 
         // Clear the focused field after blur
         focusedField = null
+
+        // Remove border after blur
+        removeBorder[key] = true
     }
 
     // Handle focus to track the current field being edited
@@ -128,15 +165,22 @@
 
 		<!-- Contact Details and Address -->
 		<div id="contact-details" class="text-left">
-			<ContentEditableFirstP field={'businessName'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} {firstInput}>
-                {data.businessName}
-            </ContentEditableFirstP>
+            <p contenteditable="true" 
+            bind:this={firstInput} 
+            class="font-semibold px-2 py-0.5 rounded-md mb-0.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 {removeBorder.businessName ? 'border-none' : 'border border-gray-500 dark:border-gray-200'}"
+            on:input={(e) => handleInput(e, 'businessName')}
+            on:keydown={(e) => handleKeyDown(e, 'businessName')}
+            on:blur={() => handleBlur('businessName')}
+            on:focus={() => handleFocus('businessName')}
+            >
+            {data.businessName}
+        </p>
 
-			<ContentEditable field={'businessAddressLine1'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+			<ContentEditable field={'businessAddressLine1'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} {removeBorder}>
                 {data.businessAddressLine1}
             </ContentEditable>
 
-			<ContentEditable field={'businessAddressLine2'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+			<ContentEditable field={'businessAddressLine2'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} {removeBorder}>
                 {data.businessAddressLine2}
             </ContentEditable>
 		</div>
@@ -145,16 +189,16 @@
 	<div class="mb-12 flex items-start justify-between text-gray-700">
 		<div id="billed-to" class="mt-6">
 			<h2 class="pb-1 text-lg font-medium text-gray-800">BILLED TO:</h2>
-			<ContentEditable field={'billingCompanyName'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+			<ContentEditable field={'billingCompanyName'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} {removeBorder}>
                 {data.billingCompanyName}
             </ContentEditable>
-			<ContentEditable field={'billingCompanyAddressLine1'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+			<ContentEditable field={'billingCompanyAddressLine1'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} {removeBorder}>
                 {data.billingCompanyAddressLine1}
             </ContentEditable>
-			<ContentEditable field={'billingCompanyAddressLine2'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+			<ContentEditable field={'billingCompanyAddressLine2'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} {removeBorder}>
                 {data.billingCompanyAddressLine2}
             </ContentEditable>
-			<ContentEditable field={'billingCompanyRegistrationNumber'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+			<ContentEditable field={'billingCompanyRegistrationNumber'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} {removeBorder}>
                 {data.billingCompanyRegistrationNumber}
             </ContentEditable>
 		</div>
@@ -165,17 +209,17 @@
 			</h2>
 			<div id="invoice-info" class="grid w-80 grid-cols-2 grid-cols-[40%_60%] text-gray-700">
 				<p class="text-left">Invoice Number:</p>
-                <ContentEditable field={'invoiceNumber'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} css={'text-right'}>
+                <ContentEditable field={'invoiceNumber'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} css={'text-right'}  {removeBorder}>
                     {data.invoiceNumber}
                 </ContentEditable>
 
 				<p class="text-left">Invoice Date:</p>
-                <ContentEditable field={'invoiceDate'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} css={'text-right'}>
+                <ContentEditable field={'invoiceDate'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} css={'text-right'}  {removeBorder}>
                     {data.invoiceDate}
                 </ContentEditable>
 
 				<p class="text-left">Supply Dates:</p>
-                <ContentEditable field={'supplyDates'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} css={'text-right'}>
+                <ContentEditable field={'supplyDates'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus} css={'text-right'}  {removeBorder}>
                     {data.supplyDates}
                 </ContentEditable>
 			</div>
@@ -254,22 +298,22 @@
 			</h2>
 			<div id="invoice-info" class="grid w-80 grid-cols-2 gap-x-2 text-gray-700">
 				<p class="text-left">Account Name:</p>
-                <ContentEditable field={'accountName'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+                <ContentEditable field={'accountName'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}  {removeBorder}>
                     {data.accountName}
                 </ContentEditable>
 
 				<p class="text-left">Account Number:</p>
-                <ContentEditable field={'accountNumber'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+                <ContentEditable field={'accountNumber'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}  {removeBorder}>
                     {data.accountNumber}
                 </ContentEditable>
 
 				<p class="text-left">Sort Code:</p>
-                <ContentEditable field={'sortCode'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+                <ContentEditable field={'sortCode'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}  {removeBorder}>
                     {data.sortCode}
                 </ContentEditable>
 
 				<p class="text-left">Bank Name:</p>
-                <ContentEditable field={'bankName'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}>
+                <ContentEditable field={'bankName'} {handleInput} {handleKeyDown} {handleBlur} {handleFocus}  {removeBorder}>
                     {data.bankName}
                 </ContentEditable>
 			</div>

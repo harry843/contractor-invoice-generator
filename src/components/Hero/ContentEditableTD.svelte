@@ -10,7 +10,7 @@
 <td contenteditable="true" 
     class="border border-gray-300 p-2 {css}"
     on:input={(e) => handleInput(e, field)}
-    on:keydown={handleKeyDown}
+    on:keydown={(e) => handleKeyDown(e, field)}
     on:blur={() => handleBlur(field)}
     on:focus={() => handleFocus(field)}
     >
