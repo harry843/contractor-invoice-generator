@@ -2,12 +2,13 @@
     import { demoVariables } from "$lib/store";
 	import { downloadDocument, downloadToBrowser, requestDownload, type PayloadInput } from "$lib/tailwindstream";
     import { onMount } from 'svelte';
-	import DownloadInvoice from "../InvoiceForm/FormElements/DownloadInvoice.svelte";
+	import DownloadInvoice from "../../InvoiceForm/FormElements/DownloadInvoice.svelte";
 	import { invoiceDemo } from "$lib/htmltemplates";
-	import ContentEditableTd from "./ContentEditableTD.svelte";
-	import ContentEditableTh from "./ContentEditableTH.svelte";
-	import ContentEditable from "./ContentEditableP.svelte";
+	import ContentEditableTd from "./ContentEditable/ContentEditableTD.svelte";
+	import ContentEditableTh from "./ContentEditable/ContentEditableTH.svelte";
+	import ContentEditable from "./ContentEditable/ContentEditableP.svelte";
 	import type { RemoveBorder } from "$lib/types";
+	import CodeEditor from "./CodeEditor/CodeEditor.svelte";
 
     $: data = $demoVariables
 
@@ -55,6 +56,14 @@
     sortCode: false,
     bankName: false,
 }
+
+    let isPreview = true;
+
+    $: isDarkMode = false;
+
+    const onClick = () => {
+        isPreview = !isPreview
+    }
 
 
     // Update function to bind changes to the store
@@ -149,13 +158,43 @@
     if (firstInput) {
       firstInput.focus();
     }
-  })
+
+    const observer = new MutationObserver(() => {
+      isDarkMode = document.documentElement.classList.contains('dark');
+    });
+
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+    // Cleanup observer on component destroy
+    return () => observer.disconnect();
+  });
 </script>
 
-<section class="py-4">
-    <DownloadInvoice handleSubmit={mutateAsync} {btnText} {isLoading} {error} />
-    <div class="w-full md:w-2/3 max-w-[210mm] h-[294mm] bg-white border shadow-md border-gray-100 mx-auto p-8 sm:p-16">
-	<!-- Header with Logo, Title, and Contact Details -->
+<section class="dark:bg-hero-pattern">
+
+        <div class="h-24 dark:bg-gradient-to-b dark:from-[#16143a] dark:to-indigo-950"></div>
+        <div class="-translate-y-[10%] flex flex-col items-center">
+    
+    <!-- Invoice Demo Container -->
+    <div id="container" class="flex flex-col items-center justify-center space-y-4 bg-gray-50 rounded-md p-6">
+        <div class="flex w-full lg:min-w-[240mm] justify-between">
+            <div class="flex space-x-2 py-1.5 border border-gray-200 px-2 rounded-md">
+              <button 
+              class="text-sm font-semibold rounded-md text-indigo-800 px-2 py-1 min-w-16 {isPreview ? 'bg-indigo-200' : ''}"
+              on:click={onClick}
+              >Preview
+            </button>
+              
+              <button 
+              class="text-sm font-semibold rounded-md text-indigo-800 px-2 py-1 min-w-16 {!isPreview ? 'bg-indigo-200' : ''}"
+              on:click={onClick}
+              >Code</button>
+            </div>
+            <DownloadInvoice handleSubmit={mutateAsync} {btnText} {isLoading} {error} />
+          </div>
+    <div id="preview" class="w-full max-w-[210mm] max-h-[297mm] aspect-[210/297] bg-white border shadow-md p-8">
+	{#if isPreview}
+        <!-- Header with Logo, Title, and Contact Details -->
 	<div class="mb-12 flex items-center justify-between">
 		<!-- Logo and Title -->
 		<div class="flex items-center">
@@ -326,5 +365,12 @@
 			</div>
 		</div>
 	</div>
+{:else}
+    <div class="h-[272mm]">
+        <CodeEditor bind:code={payload.html} language="html" theme={isDarkMode ? 'vs-dark' : 'vs'} />
+    </div>  
+{/if}
+</div>
+</div>
 </div>
 </section>

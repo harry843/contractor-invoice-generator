@@ -114,6 +114,10 @@ export default {
 			
 			fontFamily: {
 				customHeading: ['Roboto Slab'],
+			},
+
+			backgroundImage: {
+				'hero-pattern': "url('hexagons.svg')"
 			}
 		}
 	},
