@@ -26,15 +26,6 @@ import { onMount, onDestroy } from 'svelte';
     });
   </script>
   
-  <style>
-    .editor-container {
-      height: 100%; /* Ensure editor fills its container */
-      width: 100%;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-  </style>
-  
   <!-- Editor Container -->
-  <div bind:this={editorContainer} class="editor-container"></div>
+  <div bind:this={editorContainer} class="h-full w-full border border-gray-300 rounded"></div>
   

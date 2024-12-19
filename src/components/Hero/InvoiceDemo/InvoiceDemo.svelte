@@ -1,7 +1,7 @@
 <script lang="ts">
     import { demoVariables } from "$lib/store";
 	import { downloadDocument, downloadToBrowser, requestDownload, type PayloadInput } from "$lib/tailwindstream";
-    import { onMount } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
 	import DownloadInvoice from "../../InvoiceForm/FormElements/DownloadInvoice.svelte";
 	import { invoiceDemo } from "$lib/htmltemplates";
 	import ContentEditableTd from "./ContentEditable/ContentEditableTD.svelte";
@@ -60,6 +60,7 @@
     let isPreview = true;
 
     $: isDarkMode = false;
+    $: theme = isDarkMode ? 'vs-dark' : 'vs'
 
     const onClick = () => {
         isPreview = !isPreview
@@ -154,19 +155,25 @@
     }
 
      // Set focus on the first input when the component is mounted
-  onMount(() => {
+     onMount(() => {
     if (firstInput) {
       firstInput.focus();
     }
+    
+    // Initial detection of dark mode
+    isDarkMode = document.documentElement.classList.contains('dark');
 
+    // Observer to monitor changes in the 'class' attribute
     const observer = new MutationObserver(() => {
       isDarkMode = document.documentElement.classList.contains('dark');
     });
 
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
 
-    // Cleanup observer on component destroy
-    return () => observer.disconnect();
+    // Cleanup observer when the component is destroyed
+    onDestroy(() => {
+      observer.disconnect();
+    });
   });
 </script>
 
@@ -367,7 +374,7 @@
 	</div>
 {:else}
     <div class="h-[272mm]">
-        <CodeEditor bind:code={payload.html} language="html" theme={isDarkMode ? 'vs-dark' : 'vs'} />
+        <CodeEditor bind:code={payload.html} language="html" {theme} />
     </div>  
 {/if}
 </div>
