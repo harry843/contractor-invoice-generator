@@ -4,6 +4,7 @@
 	import type { ValidationErrors } from "$lib/types";
 	import { filterRowsArray, formatDateToCustomString, generateHtmlTableRows, isValidUrl } from "$lib/utils";
 	import DownloadInvoice from "../FormElements/DownloadInvoice.svelte";
+	import SuccessModal from "../FormElements/SuccessModal.svelte";
 	import FinishingTouches from "./FinishingTouches.svelte";
 
     export let step;
@@ -18,6 +19,7 @@
 ;
 	
 	let isLoading = false;
+	let success = false;
 	let error: any = null;
 	let btnText = `Download .${payload.output}`;
     let validationErrors: Partial<ValidationErrors> = {
@@ -110,6 +112,7 @@
 		} finally {
 			isLoading = false;
 			btnText = `Download .${payload.output}`;
+			success = true;
 		}
 	};
 
@@ -117,3 +120,5 @@
 <FinishingTouches {step} {validationErrors} />
 
 <DownloadInvoice handleSubmit={mutateAsync} {isLoading} {btnText} {error} />
+
+<SuccessModal {success} />
