@@ -60,17 +60,17 @@
 
 <div class="flex flex-col lg:flex-row p-3">
   <!-- Invoice Form -->
-  <div class="min-w-[300px] w-full md:w-1/2">
+  <div class="min-w-[300px] w-full lg:w-1/2 md:pt-12">
     <InvoiceForm {data} {payload} />
   </div>
 
   <!-- Conditional Rendering for Preview -->
   {#if isWideEnough}
-    <div class="hidden md:block w-full md:w-1/2 md:max-w-[595px] bg-white border border-gray-200 shadow-md mx-auto p-8 xl:p-16">
+    <div class="hidden md:block w-full lg:w-1/2 md:max-w-[595px] bg-white border border-gray-200 shadow-md mx-auto p-8 xl:p-16 lg:translate-y-16">
       <Preview />
     </div>
   {:else}
-    <div class="flex justify-start px-[5%] md:px-[2.5%] mt-4">
+    <div class="flex justify-start px-[5%] mt-4">
       <Button 
         on:click={openPreview}
         colour="slate"
@@ -80,12 +80,3 @@
     </div>
   {/if}
 </div>
-
-
-    <!-- <div>
-      <textarea
-        class="p-4 mt-4 w-full h-96 border border-gray-300 rounded"
-        bind:value={payload.html}
-      ></textarea>
-    </div>   -->
-  

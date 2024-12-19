@@ -61,9 +61,9 @@
 
 </script>
 
-<h1 class="text-xl py-2.5 font-semibold text-center font-customHeading">Company Details</h1>
+<h1 class="text-xl py-2.5 font-semibold text-center font-customHeading text-black dark:text-slate-50">Company Details</h1>
 
-<h2 class="font-medium text-base font-customHeading pb-2.5">Your Company</h2>
+<h2 class="font-medium text-base font-customHeading pb-2.5 text-black dark:text-slate-50">Your Company</h2>
 
 <div class="ml-1.5 md:ml-3">
 <Input 
@@ -94,7 +94,7 @@ error={validationErrors.businessAddressLine2}
 
 <div class="h-0.5 w-48 my-2 mt-5 bg-gray-200"></div>
 
-<h2 class="font-medium text-base font-customHeading py-2">Billed To</h2>
+<h2 class="font-medium text-base font-customHeading py-2 text-black dark:text-slate-50">Billed To</h2>
 
 <div class="ml-1.5 md:ml-3">
 <Input

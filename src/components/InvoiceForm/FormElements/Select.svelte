@@ -4,7 +4,7 @@
     export let label: string = '';
   </script>
   
-  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-50 md:py-0.5 lg:py-1 xl:py-1.5 2xl:py-2">
       {#if label}
           <span class="block">{label}</span>
       {/if}

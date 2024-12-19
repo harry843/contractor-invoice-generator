@@ -90,7 +90,7 @@
 <div class="col-span-2">
 <Back  {step} {goToPrevious} />
 </div>
-<h1 class="col-span-3 text-xl py-2.5 font-semibold text-center font-customHeading">Invoice Details</h1>
+<h1 class="col-span-3 text-xl py-2.5 font-semibold text-center font-customHeading text-black dark:text-slate-100">Invoice Details</h1>
 </div>
 
  <Input

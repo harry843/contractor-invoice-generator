@@ -4,4 +4,14 @@
 	let { children } = $props();
 </script>
 <NavBar />
+<style lang="postcss">
+	:global(body) {
+		@apply bg-hero-pattern;
+	}
+
+	:global(html.dark body) {
+		@apply bg-gradient-to-b from-gray-900 to-gray-900;
+	}
+</style>
+
 {@render children()}

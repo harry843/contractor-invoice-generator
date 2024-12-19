@@ -23,7 +23,7 @@
   </script>
   
  
-  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+  <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-slate-50 md:py-0.5 lg:py-1 xl:py-1.5 2xl:py-2">
       {#if label}
           <span class="block">{label}
             {#if !required}
@@ -64,7 +64,7 @@
       {#if tooltipText}
       <div class="relative flex items-center ml-1.5">
         <svg
-          class="w-5 h-5 text-gray-500 dark:text-indigo-100 md:mb-0 focus:ring-4 focus:outline-none rounded-lg text-sm text-center"
+          class="w-5 h-5 text-gray-500 dark:text-indigo-200 md:mb-0 focus:ring-4 focus:outline-none rounded-lg text-sm text-center"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -96,7 +96,7 @@
       {/if}
     </div>
       {#if error}
-          <span class="block text-xs font-normal text-red-500">{error}</span>
+          <span class="block text-xs font-normal text-red-500 dark:text-red-300">{error}</span>
       {/if}
   </label>
 

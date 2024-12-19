@@ -11,7 +11,7 @@
   
   {#if isOpen}
     <div
-      class="flex items-center p-4 mb-4 text-sm text-indigo-900 border rounded-lg bg-indigo-50 dark:bg-gray-800 dark:text-indigo-200 relative"
+      class="flex items-center p-4 mb-4 text-sm text-indigo-900 border rounded-lg bg-sky-100 dark:bg-indigo-900 dark:border-indigo-800 dark:text-indigo-50 relative"
       role="alert"
     >
       <svg
