@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" 
-class="w-7 h-7 fill-indigo-600 dark:fill-indigo-100" 
+class="w-7 h-7 fill-indigo-600 dark:fill-slate-50" 
 viewBox="0 -960 960 960" 
 fill="currentColor"
 >

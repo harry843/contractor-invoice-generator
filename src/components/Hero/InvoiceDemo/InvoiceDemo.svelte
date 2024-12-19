@@ -177,28 +177,40 @@
   });
 </script>
 
-<section class="dark:bg-hero-pattern">
+<section class="bg-hero-pattern dark:bg-gray-900 dark:border-t-8 dark:border-gray-900 ">
 
-        <div class="h-24 dark:bg-gradient-to-b dark:from-[#16143a] dark:to-indigo-950"></div>
-        <div class="-translate-y-[10%] flex flex-col items-center">
+        <div class="h-40 dark:bg-gray-900  dark:border-b-4 border-slate-100"></div>
+        <div class="-translate-y-[10%] flex flex-col items-center dark:bg-gray-900">
     
     <!-- Invoice Demo Container -->
-    <div id="container" class="flex flex-col items-center justify-center space-y-4 bg-gray-50 rounded-md p-6">
+    <div id="container" class="flex flex-col items-center justify-center space-y-4 bg-gray-100 dark:bg-hero-pattern rounded-md p-6">
         <div class="flex w-full lg:min-w-[240mm] justify-between">
-            <div class="flex space-x-2 py-1.5 border border-gray-200 px-2 rounded-md">
+            <div class="flex space-x-2 py-1.5 border border-gray-200 bg-gray-100 px-2 rounded-md">
               <button 
-              class="text-sm font-semibold rounded-md text-indigo-800 px-2 py-1 min-w-16 {isPreview ? 'bg-indigo-200' : ''}"
+              class="text-sm font-semibold rounded-md text-indigo-800 px-2 py-1 min-w-16 {isPreview ? 'bg-indigo-200' : 'hover:bg-indigo-100'}"
               on:click={onClick}
               >Preview
             </button>
               
               <button 
-              class="text-sm font-semibold rounded-md text-indigo-800 px-2 py-1 min-w-16 {!isPreview ? 'bg-indigo-200' : ''}"
+              class="text-sm font-semibold rounded-md text-indigo-800 px-2 py-1 min-w-16 {!isPreview ? 'bg-indigo-200' : 'hover:bg-indigo-100'}"
               on:click={onClick}
               >Code</button>
-            </div>
+            </div> 
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-customHeading font-bold translate-y-[20%]">Invoice-r Playground</h1>           
             <DownloadInvoice handleSubmit={mutateAsync} {btnText} {isLoading} {error} />
           </div>
+        <div class="flex items-start justify-start lg:min-w-[240mm]">
+            {#if isPreview}
+        <div class="text-left text-sm p-2 border border-gray-200 rounded-md">
+            Click on a text box in the document below to edit
+        </div>
+        {:else}
+        <div class="text-left text-sm p-2 border border-gray-200 rounded-md">
+            Edit the code below or paste your own
+        </div>
+        {/if}
+    </div>
     <div id="preview" class="w-full max-w-[210mm] max-h-[297mm] aspect-[210/297] bg-white border shadow-md p-8">
 	{#if isPreview}
         <!-- Header with Logo, Title, and Contact Details -->

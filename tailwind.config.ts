@@ -1,5 +1,4 @@
-import forms from '@tailwindcss/forms';
-import typography from '@tailwindcss/typography';
+import clip from 'tailwind-clip-path';
 import type { Config } from 'tailwindcss';
 
 export default {
@@ -118,9 +117,22 @@ export default {
 
 			backgroundImage: {
 				'hero-pattern': "url('hexagons.svg')"
-			}
+			},
+			clipPath: {
+				'semi-circle-ellipse': 'ellipse(50% 100% at 50% 100%)',
+				'bottom-semi-circle-ellipse': 'ellipse(50% 100% at 50% 0%)'
+			  },
+			  keyframes: {
+				bounceSlow: {
+				  '0%, 100%': { transform: 'translateY(10px)' }, 
+				  '50%': { transform: 'translateY(-10px)' }, 
+				},
+			  },
+			  animation: {
+				bounceSlow: 'bounceSlow 2s infinite',
+			  },
 		}
 	},
 
-	plugins: []
+	plugins: [clip]
 } satisfies Config;

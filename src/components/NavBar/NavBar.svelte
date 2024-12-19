@@ -44,7 +44,7 @@
 
 <nav
 	bind:clientWidth={width}
-	class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600"
+	class="bg-hero-pattern dark:bg-gradient-to-b dark:from-gray-900 dark:to-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600"
 >
 	<div
 		class="px-2 xs:px-4 md:px-16 lg:px-32 xl:px-44 2xl:px-56 flex flex-wrap items-center justify-between mx-auto py-2"

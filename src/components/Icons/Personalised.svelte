@@ -1,4 +1,4 @@
-<svg class="w-7 h-7 fill-indigo-600 dark:fill-indigo-100" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+<svg class="w-7 h-7 fill-indigo-600 dark:fill-slate-50" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 439.303 439.303" fill="currentColor"
 	 xml:space="preserve">
 <g>
