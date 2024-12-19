@@ -22,7 +22,7 @@ import Personalised from "../Icons/Personalised.svelte";
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold dark:text-gray-900 text-slate-50">
                 Designed for freelancers and contractors
             </h2>
-            <p class="text-slate-400 dark:text-gray-600 sm:text-xl ">
+            <p class="text-slate-300 dark:text-gray-600 sm:text-xl ">
                 Managing invoices shouldn’t be hard. Most tools are costly or complicated. Invoice-r makes it simple: personalised invoices — completely free.            
             </p>
         </div>
