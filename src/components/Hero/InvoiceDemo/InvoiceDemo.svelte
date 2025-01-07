@@ -207,7 +207,7 @@
         </div>
         {:else}
         <div class="text-left text-sm p-2 border border-gray-200 rounded-md">
-            Edit the code below or paste your own
+            Invoice-r converts HTML code into pdf using <a class="underline text-indigo-600 hover:no-underline" href="https://tailwindpdf.com/" target="_blank" rel="noopener">tailwindpdf</a>
         </div>
         {/if}
     </div>

@@ -230,3 +230,14 @@ export function formatSixDigitInteger(input: number) {
   // Return the input as a string if it's not 6 digits long
   return inputStr;
 }
+
+export function handleAnchorClick (event: { preventDefault: () => void; currentTarget: any; }) {
+  event.preventDefault()
+  const link = event.currentTarget
+  const anchorId = new URL(link.href).hash.replace('#', '')
+  const anchor = document.getElementById(anchorId)
+  window.scrollTo({
+      top: anchor.offsetTop - 75,
+      behavior: 'smooth'
+  })
+}

@@ -21,17 +21,17 @@
 </script>
 <div>
 	<!-- Progress step tracker -->
-	<Stepper {step}/>
+	<Stepper step={currentStep}/>
 
 <form class="px-[5%]">
 <!-- 1. Company details -->
 {#if step == 1}
-<CompanyDetails {step} />
+<CompanyDetails step={currentStep} />
 {/if}
 
 <!-- 2. Invoice details -->
  {#if step == 2}
- <InvoiceDetails {step} />
+ <InvoiceDetails step={currentStep} />
 
 {/if}
 
@@ -44,19 +44,19 @@
 	<h1 class="col-span-3 text-xl py-2.5 font-semibold text-center font-customHeading">Invoice Items</h1>
 	</div>
 
-<InvoiceRow {step} />
+<InvoiceRow step={currentStep} />
 {/if}
 
 <!-- 4. Payee Information -->
  {#if step == 4}
- <PayeeDetails {step} />
+ <PayeeDetails step={currentStep} />
 
 {/if}
 
 <!-- 5. Finishing touches -->
  {#if step == 5}
 
-<SubmissionPage {step} {data} {payload} />
+<SubmissionPage step={currentStep} {data} {payload} />
 
 {/if}
 

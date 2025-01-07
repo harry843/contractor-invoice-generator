@@ -60,7 +60,7 @@ export const invoiceItems = writable([
       },
   ]);
 
-export const currentStep = writable(1);
+export const currentStep = writable(5);
 
 export const demoVariables = writable(
     {

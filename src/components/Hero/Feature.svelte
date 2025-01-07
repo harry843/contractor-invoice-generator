@@ -1,11 +1,13 @@
 <script>
-	import Accurate from "../Icons/Accurate.svelte";
-import Personalised from "../Icons/Personalised.svelte";
+	import { handleAnchorClick } from "$lib/utils";
+import Accurate from "../Icons/Accurate.svelte";
+    import Personalised from "../Icons/Personalised.svelte";
 	import Simple from "../Icons/Simple.svelte";
 
 </script>
 <section class="">
     <div class="clip-path-semi-circle-ellipse bg-gray-900 dark:bg-hero-pattern h-20 flex items-center justify-center">
+        <a href="#learn" on:click={handleAnchorClick} aria-label="button">
         <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-8 w-8 text-white dark:text-black animate-bounceSlow"
@@ -14,10 +16,12 @@ import Personalised from "../Icons/Personalised.svelte";
         stroke="currentColor"
         stroke-width="2"
       >
+    
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
       </svg>
+    </a>
     </div>
-    <div class="py-8 px-4 mx-auto text-center max-w-screen-xl sm:py-16 lg:px-6 bg-gray-900 dark:bg-hero-pattern">
+    <div id="learn" class="py-8 px-4 mx-auto text-center max-w-screen-xl sm:py-16 lg:px-6 bg-gray-900 dark:bg-hero-pattern">
         <div class="max-w-screen-md mb-8 lg:mb-16 inline-flex flex-col items-center">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold dark:text-gray-900 text-slate-50">
                 Designed for freelancers and contractors
