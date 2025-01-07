@@ -19,7 +19,7 @@
 ;
 	
 	let isLoading = false;
-	let success = true;
+	let success = false;
 	let error: any = null;
 	let btnText = `Download .${payload.output}`;
     let validationErrors: Partial<ValidationErrors> = {
