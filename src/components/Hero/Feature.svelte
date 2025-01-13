@@ -1,10 +1,10 @@
 <script>
 	import { handleAnchorClick } from "$lib/utils";
-import Accurate from "../Icons/Accurate.svelte";
+    import Accurate from "../Icons/Accurate.svelte";
     import Personalised from "../Icons/Personalised.svelte";
 	import Simple from "../Icons/Simple.svelte";
-
 </script>
+
 <section class="">
     <div class="clip-path-semi-circle-ellipse bg-gray-900 dark:bg-hero-pattern h-20 flex items-center justify-center">
         <a href="#learn" on:click={handleAnchorClick} aria-label="button">

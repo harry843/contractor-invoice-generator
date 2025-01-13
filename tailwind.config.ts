@@ -116,7 +116,7 @@ export default {
 			},
 
 			backgroundImage: {
-				'hero-pattern': "url('hexagons.svg')"
+				'hero-pattern': "url('/hexagons.svg')"
 			},
 			clipPath: {
 				'semi-circle-ellipse': 'ellipse(50% 100% at 50% 100%)',
