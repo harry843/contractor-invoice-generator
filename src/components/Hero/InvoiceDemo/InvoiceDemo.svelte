@@ -158,23 +158,17 @@
      onMount(() => {
     if (firstInput) {
       firstInput.focus();
+      window.scrollTo({ top: 0});
     }
-    
-    // Initial detection of dark mode
-    isDarkMode = document.documentElement.classList.contains('dark');
 
-    // Observer to monitor changes in the 'class' attribute
+    // Dark mode observer logic
+    isDarkMode = document.documentElement.classList.contains('dark');
     const observer = new MutationObserver(() => {
       isDarkMode = document.documentElement.classList.contains('dark');
     });
-
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-
-    // Cleanup observer when the component is destroyed
-    onDestroy(() => {
-      observer.disconnect();
-    });
-  });
+    onDestroy(() => observer.disconnect());
+  })
 </script>
 
 <section class="bg-hero-pattern dark:bg-gray-900 dark:border-t-8 dark:border-gray-900 ">
