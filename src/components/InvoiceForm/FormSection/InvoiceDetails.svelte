@@ -6,6 +6,7 @@
 	import type { ValidationErrors } from "$lib/types";
 	import Navigation from "../FormElements/Forward.svelte";
 	import Back from "../FormElements/Back.svelte";
+	import { get } from "svelte/store";
 
     export let step;
 
@@ -88,7 +89,7 @@
 </script>
 <div class="grid grid-cols-5 justify-items-start items-center">
 <div class="col-span-2">
-<Back  {step} {goToPrevious} />
+<Back  step={get(currentStep)} {goToPrevious} />
 </div>
 <h1 class="col-span-3 text-xl py-2.5 font-semibold text-center font-customHeading text-black dark:text-slate-100">Invoice Details</h1>
 </div>

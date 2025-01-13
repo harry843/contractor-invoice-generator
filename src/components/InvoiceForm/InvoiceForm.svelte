@@ -7,6 +7,7 @@
 	import Back from "./FormElements/Back.svelte";
 	import PayeeDetails from "./FormSection/PayeeDetails.svelte";
 	import SubmissionPage from "./FormSection/SubmissionPage.svelte";
+	import { get } from 'svelte/store';
 	
 	export let data;
 	export let payload;
@@ -21,17 +22,17 @@
 </script>
 <div>
 	<!-- Progress step tracker -->
-	<Stepper step={currentStep}/>
+	<Stepper step={get(currentStep)}/>
 
 <form class="px-[5%]">
 <!-- 1. Company details -->
 {#if step == 1}
-<CompanyDetails step={currentStep} />
+<CompanyDetails step={get(currentStep)} />
 {/if}
 
 <!-- 2. Invoice details -->
  {#if step == 2}
- <InvoiceDetails step={currentStep} />
+ <InvoiceDetails step={get(currentStep)} />
 
 {/if}
 
@@ -39,24 +40,24 @@
 {#if step == 3}
 <div class="grid grid-cols-5 justify-items-start items-center">
 	<div class="col-span-2">
-	<Back  {step} {goToPrevious} />
+	<Back  step={get(currentStep)} {goToPrevious} />
 	</div>
 	<h1 class="col-span-3 text-xl py-2.5 font-semibold text-center font-customHeading">Invoice Items</h1>
 	</div>
 
-<InvoiceRow step={currentStep} />
+<InvoiceRow step={get(currentStep)} />
 {/if}
 
 <!-- 4. Payee Information -->
  {#if step == 4}
- <PayeeDetails step={currentStep} />
+ <PayeeDetails step={get(currentStep)} />
 
 {/if}
 
 <!-- 5. Finishing touches -->
  {#if step == 5}
 
-<SubmissionPage step={currentStep} {data} {payload} />
+<SubmissionPage {data} {payload} />
 
 {/if}
 

@@ -7,7 +7,6 @@
 	import SuccessModal from "../FormElements/SuccessModal.svelte";
 	import FinishingTouches from "./FinishingTouches.svelte";
 
-    export let step;
     export let data;
     export let payload;
 
@@ -117,7 +116,7 @@
 	};
 
 </script>
-<FinishingTouches {step} {validationErrors} />
+<FinishingTouches {validationErrors} />
 
 <DownloadInvoice handleSubmit={mutateAsync} {isLoading} {btnText} {error} />
 

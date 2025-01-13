@@ -2,6 +2,7 @@
 	import { payeeDetails, currentStep } from "$lib/store";
 	import type { ValidationErrors } from "$lib/types";
 	import { updateStoreOnInput } from "$lib/utils";
+	import { get } from "svelte/store";
 	import Back from "../FormElements/Back.svelte";
 	import Forward from "../FormElements/Forward.svelte";
 	import Input from "../FormElements/Input.svelte";
@@ -59,7 +60,7 @@
 
 <div class="grid grid-cols-5 justify-items-start items-center">
     <div class="col-span-2">
-    <Back  {step} {goToPrevious} />
+    <Back  step={get(currentStep)} {goToPrevious} />
     </div>
     <h1 class="col-span-3 text-xl py-2.5 font-semibold text-center font-customHeading text-black dark:text-slate-100">Payee Details</h1>
 </div>

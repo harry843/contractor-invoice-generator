@@ -6,8 +6,8 @@
 	import Back from "../FormElements/Back.svelte";
 	import InformationAdmonition from "../FormElements/InformationAdmonition.svelte";
 	import { updateStoreOnInput } from "$lib/utils";
+	import { get } from "svelte/store";
 
-    export let step;
     export let validationErrors;
 
     $: data = $finishingTouches;
@@ -21,7 +21,7 @@
 </script>
 <div class="grid grid-cols-5 justify-items-start items-center">
     <div class="col-span-2">
-    <Back  {step} {goToPrevious} />
+    <Back  step={get(currentStep)} {goToPrevious} />
     </div>
     <h1 class="col-span-3 text-xl py-2.5 font-semibold text-center font-customHeading text-black dark:text-slate-100">Finishing Touches</h1>
 </div>
