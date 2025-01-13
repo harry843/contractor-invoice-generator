@@ -21,7 +21,7 @@ import Accurate from "../Icons/Accurate.svelte";
       </svg>
     </a>
     </div>
-    <div id="learn" class="py-8 px-4 mx-auto text-center max-w-screen-xl sm:py-16 lg:px-6 bg-gray-900 dark:bg-hero-pattern">
+    <div id="learn" class="py-8 px-4 mx-auto text-center sm:py-16 lg:px-6 bg-gray-900 dark:bg-hero-pattern">
         <div class="max-w-screen-md mb-8 lg:mb-16 inline-flex flex-col items-center">
             <h2 class="mb-4 text-4xl tracking-tight font-extrabold dark:text-gray-900 text-slate-50">
                 Designed for freelancers and contractors
