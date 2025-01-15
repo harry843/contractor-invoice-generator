@@ -1,7 +1,9 @@
 <script>
 	import { handleAnchorClick } from '$lib/utils';
 	import Accurate from '../Icons/Accurate.svelte';
+	import Instant from '../Icons/Instant.svelte';
 	import Personalised from '../Icons/Personalised.svelte';
+	import Private from '../Icons/Private.svelte';
 	import Simple from '../Icons/Simple.svelte';
 </script>
 
@@ -35,8 +37,34 @@
 				it simple: personalised invoices — completely free.
 			</p>
 		</div>
-		<div class="space-y-8 md:grid md:grid-cols-2 md:gap-12 md:space-y-0 lg:grid-cols-3">
-			<div class="flex flex-col items-center">
+		<div
+			class="md:mx-[12.5%] 2xl:mx-[20%] justify-items-center space-y-8 md:grid md:grid-cols-2 md:gap-12 md:space-y-0"
+		>
+			<div class="flex max-w-[440px] flex-col items-center">
+				<div
+					class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-600 lg:h-12 lg:w-12"
+				>
+					<Instant />
+				</div>
+				<h3 class="mb-2 text-2xl font-bold text-slate-50 dark:text-gray-900">Instant</h3>
+				<p class="text-slate-400 dark:text-gray-600">
+					Start invoicing right away - no sign-ups, no credit card details, no delays. All features
+					are available immediately to everyone.
+				</p>
+			</div>
+			<div class="flex max-w-[440px] flex-col items-center">
+				<div
+					class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-600 lg:h-12 lg:w-12"
+				>
+					<Accurate />
+				</div>
+				<h3 class="mb-2 text-2xl font-bold text-slate-50 dark:text-gray-900">Accurate</h3>
+				<p class="text-slate-400 dark:text-gray-600">
+					Automatically calculates the total amount you are owed across all invoice items. Supports
+					multiple currencies. Precision you can trust.
+				</p>
+			</div>
+			<div class="flex max-w-[440px] flex-col items-center">
 				<div
 					class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-600 lg:h-12 lg:w-12"
 				>
@@ -48,7 +76,7 @@
 					Customise colours to express your individual brand.
 				</p>
 			</div>
-			<div class="flex flex-col items-center">
+			<div class="flex max-w-[440px] flex-col items-center">
 				<div
 					class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-600 lg:h-12 lg:w-12"
 				>
@@ -60,16 +88,18 @@
 					the rest, exporting a polished PDF. Nice one.
 				</p>
 			</div>
-			<div class="flex flex-col items-center">
+		</div>
+		<div id="private" class="grid grid-cols-1 max-w-[440px] mx-auto">
+			<div class="flex flex-col items-center pt-8 md:pt-12">
 				<div
 					class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-600 lg:h-12 lg:w-12"
 				>
-					<Accurate />
+					<Private />
 				</div>
-				<h3 class="mb-2 text-2xl font-bold text-slate-50 dark:text-gray-900">Accurate</h3>
+				<h3 class="mb-2 text-2xl font-bold text-slate-50 dark:text-gray-900">Private</h3>
 				<p class="text-slate-400 dark:text-gray-600">
-					Automatically calculates the total amount you are owed across all invoice items. Supports
-					multiple currencies. Precision you can trust.
+					Your data stays with you. No servers, no accounts, no sharing - just safe, straightforward
+					invoicing.
 				</p>
 			</div>
 		</div>
