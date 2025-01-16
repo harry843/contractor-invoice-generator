@@ -14,6 +14,9 @@
 	import ContentEditable from './ContentEditable/ContentEditableP.svelte';
 	import type { RemoveBorder } from '$lib/types';
 	import CodeEditor from './CodeEditor/CodeEditor.svelte';
+	import MobileBanner from '../../Banner/MobileBanner.svelte';
+
+	export let screenwidth;
 
 	$: data = $demoVariables;
 
@@ -178,16 +181,20 @@
 </script>
 
 <section class="bg-hero-pattern dark:border-t-8 dark:border-gray-900 dark:bg-gray-900">
-	<div class="flex flex-col items-center dark:bg-gray-900 pt-28">
+	<div class="flex flex-col items-center pt-12 dark:bg-gray-900 sm:pt-28">
 		<!-- Invoice Demo Container -->
 		<div
 			id="container"
-			class="flex flex-col items-center justify-center space-y-4 rounded-md bg-gray-100 p-6 dark:bg-hero-pattern"
+			class="flex flex-col items-center justify-center space-y-4 rounded-md bg-gray-100 py-6 dark:bg-hero-pattern sm:px-6"
 		>
-			<div class="flex w-full justify-between lg:min-w-[240mm]">
-				<div class="flex space-x-2 rounded-md border border-gray-200 bg-gray-100 px-2 py-1.5">
+			<div
+				class="flex flex-col items-center sm:w-full sm:flex-row sm:justify-between lg:min-w-[240mm]"
+			>
+				<div
+					class="flex w-36 justify-center space-x-2 rounded-md border border-gray-200 bg-gray-100 px-2 py-1.5"
+				>
 					<button
-						class="min-w-16 rounded-md px-2 py-1 text-sm font-semibold text-indigo-800 {isPreview
+						class="rounded-md px-2 py-1 text-sm font-semibold text-indigo-800 sm:min-w-16 {isPreview
 							? 'bg-indigo-200'
 							: 'hover:bg-indigo-100'}"
 						on:click={onClick}
@@ -195,16 +202,20 @@
 					</button>
 
 					<button
-						class="min-w-16 rounded-md px-2 py-1 text-sm font-semibold text-indigo-800 {!isPreview
+						class="rounded-md px-2 py-1 text-sm font-semibold text-indigo-800 sm:min-w-16 {!isPreview
 							? 'bg-indigo-200'
 							: 'hover:bg-indigo-100'}"
 						on:click={onClick}>Code</button
 					>
 				</div>
-				<h1 class="translate-y-[20%] font-customHeading text-xl font-bold sm:text-2xl lg:text-3xl">
+				<h1
+					class="translate-y-[15%] items-center font-customHeading text-2xl font-bold lg:text-3xl"
+				>
 					Invoice-r Playground
 				</h1>
-				<DownloadInvoice handleSubmit={mutateAsync} {btnText} {isLoading} {error} />
+				{#if screenwidth >= 640}
+					<DownloadInvoice handleSubmit={mutateAsync} {btnText} {isLoading} {error} />
+				{/if}
 			</div>
 			<div class="flex items-start justify-start lg:min-w-[240mm]">
 				{#if isPreview}
@@ -222,13 +233,18 @@
 					</div>
 				{/if}
 			</div>
+			{#if screenwidth <= 640}
+				<MobileBanner />
+			{/if}
 			<div
 				id="preview"
-				class="aspect-[210/297] max-h-[297mm] w-full max-w-[210mm] border bg-white p-8 shadow-md"
+				class="w-full border bg-white p-8 shadow-md sm:aspect-[210/297] sm:max-h-[297mm] sm:max-w-[210mm]"
 			>
 				{#if isPreview}
 					<!-- Header with Logo, Title, and Contact Details -->
-					<div class="mb-12 flex items-center justify-between">
+					<div
+						class="flex flex-col justify-start sm:mb-12 sm:flex-row sm:items-center sm:justify-between"
+					>
 						<!-- Logo and Title -->
 						<div class="flex items-center">
 							<img src="logo2.png" alt="Company Logo" class="mr-4 h-16 w-16" />
@@ -236,7 +252,10 @@
 						</div>
 
 						<!-- Contact Details and Address -->
-						<div id="contact-details" class="text-left">
+						<div id="contact-details" class=" mt-5 flex flex-col justify-start text-left sm:mt-0">
+							{#if screenwidth <= 640}
+								<h2 class="pb-1 text-lg font-medium text-gray-800">CONTACT DETAILS:</h2>
+							{/if}
 							<p
 								contenteditable="true"
 								bind:this={firstInput}
@@ -275,7 +294,9 @@
 						</div>
 					</div>
 
-					<div class="mb-12 flex items-start justify-between text-gray-700">
+					<div
+						class="mb-6 flex flex-col justify-between text-gray-700 sm:mb-12 sm:flex-row sm:items-center"
+					>
 						<div id="billed-to" class="mt-6">
 							<h2 class="pb-1 text-lg font-medium text-gray-800">BILLED TO:</h2>
 							<ContentEditable
@@ -371,7 +392,7 @@
 					<div class="mb-3 mt-6">
 						<table
 							id="invoice-table"
-							class="w-full rounded-sm text-left outline outline-1 outline-gray-300"
+							class="rounded-sm text-left outline outline-1 outline-gray-300 sm:w-full"
 						>
 							<thead>
 								<tr class="bg-gray-100 font-sans font-medium">
@@ -462,10 +483,10 @@
 						</table>
 					</div>
 
-					<div class="mb-12 flex justify-end">
+					<div class="mb-8 flex justify-center sm:mb-12 sm:justify-end">
 						<table
 							id="total-due"
-							class="w-[14.285rem] rounded-sm outline outline-1 outline-indigo-600"
+							class="rounded-sm outline outline-1 outline-indigo-600 sm:w-[14.285rem]"
 						>
 							<thead>
 								<tr class="border-b border-indigo-300">
@@ -496,7 +517,7 @@
 						</table>
 					</div>
 
-					<div class="my-6 flex items-start justify-between">
+					<div class="my-6 flex flex-col items-start justify-between gap-y-5 sm:flex-row">
 						<div>
 							<h2 class="pb-1 text-lg font-medium text-gray-800">PAYMENT INFORMATION:</h2>
 							<div id="invoice-info" class="grid w-80 grid-cols-2 gap-x-2 text-gray-700">
@@ -553,9 +574,14 @@
 						<div>
 							<p class="pb-1 text-lg font-medium text-gray-800">SIGNATURE:</p>
 							<div class="flex items-start">
-								<img src="hk_signature.png" alt="Signature" class=" w-52 items-start py-2" />
+								<img src="hk_signature.png" alt="Signature" class="w-52 items-start py-2" />
 							</div>
 						</div>
+						{#if screenwidth < 640}
+							<div class="flex items-center justify-center pt-2">
+								<DownloadInvoice handleSubmit={mutateAsync} {btnText} {isLoading} {error} />
+							</div>
+						{/if}
 					</div>
 				{:else}
 					<div class="h-[272mm]">

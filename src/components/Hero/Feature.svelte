@@ -9,7 +9,7 @@
 
 <section class="">
 	<div
-		class="flex h-20 items-center justify-center bg-gray-900 clip-path-semi-circle-ellipse dark:bg-hero-pattern"
+		class="flex h-14 items-center justify-center bg-gray-900 clip-path-semi-circle-ellipse dark:bg-hero-pattern sm:h-20"
 	>
 		<a href="#learn" on:click={handleAnchorClick} aria-label="button">
 			<svg
@@ -38,7 +38,7 @@
 			</p>
 		</div>
 		<div
-			class="md:mx-[12.5%] 2xl:mx-[20%] justify-items-center space-y-8 md:grid md:grid-cols-2 md:gap-12 md:space-y-0"
+			class="justify-items-center space-y-8 md:mx-[12.5%] md:grid md:grid-cols-2 md:gap-12 md:space-y-0 2xl:mx-[20%]"
 		>
 			<div class="flex max-w-[440px] flex-col items-center">
 				<div
@@ -89,7 +89,7 @@
 				</p>
 			</div>
 		</div>
-		<div id="private" class="grid grid-cols-1 max-w-[440px] mx-auto">
+		<div id="private" class="mx-auto grid max-w-[440px] grid-cols-1">
 			<div class="flex flex-col items-center pt-8 md:pt-12">
 				<div
 					class="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-600 lg:h-12 lg:w-12"
@@ -106,6 +106,6 @@
 	</div>
 
 	<div
-		class="flex h-20 items-center justify-center bg-gray-900 clip-path-bottom-semi-circle-ellipse dark:bg-hero-pattern"
+		class="flex h-14 items-center justify-center bg-gray-900 clip-path-bottom-semi-circle-ellipse dark:bg-hero-pattern sm:h-20"
 	></div>
 </section>
