@@ -9,7 +9,7 @@
 		class="items-center justify-center space-y-4 sm:flex sm:space-x-4 sm:space-y-0 rtl:space-x-reverse"
 	>
 		<a
-			href="/pdf-converter"
+			href="/create"
 			class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-3 text-center text-base font-medium text-white hover:bg-indigo-700 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
 		>
 			Create invoice
