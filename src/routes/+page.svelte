@@ -11,12 +11,12 @@
 </script>
 
 <svelte:head>
-	<title>Harry Kelleher</title>
+	<title>Invoice-r</title>
 	<meta property="og:title" content="Invoice-r" />
 	<meta property="og:type" content="article" />
 	<meta name="author" content="Harry Kelleher" />
 	<meta name="article:published_time" content={new Date().toLocaleDateString()} />
-	<meta property="og:image" content="https://ibb.co/qD7WYwk" />
+	<meta property="og:image" content="https://i.ibb.co/rQFc2J4/Screenshot-2025-01-21-141858.png" />
 	<meta
 		property="og:description"
 		content="Create your invoice in seconds. No sign-ups, no strings attached - absolutely free."
