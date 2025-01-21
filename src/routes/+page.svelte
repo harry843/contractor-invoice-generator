@@ -15,7 +15,7 @@
     <meta property="og:title" content={data.ogMetadata.title} />
     <meta property="og:type" content={data.ogMetadata.type} />
     <meta property="og:description" content={data.ogMetadata.description} />
-    <meta property="og:image" content={data.ogMetadata.image} />
+    <meta property="og:image" content="invoice-r_home.png" />
     <meta property="og:url" content={data.ogMetadata.url} />
     <meta property="og:locale" content={data.ogMetadata.locale} />
 </svelte:head>
