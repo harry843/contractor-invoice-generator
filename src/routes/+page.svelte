@@ -16,7 +16,7 @@
 	<meta property="og:type" content="website" />
 	<meta name="author" content="Harry Kelleher" />
 	<meta name="article:published_time" content={new Date().toLocaleDateString()} />
-	<meta property="og:image" content="https://i.ibb.co/rQFc2J4/Screenshot-2025-01-21-141858.png" />
+	<meta property="og:image" content="https://ibb.co/P6sq4Sh" />
 	<meta
 		property="og:description"
 		content="Create your invoice in seconds. No sign-ups, no strings attached - absolutely free."
