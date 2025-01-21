@@ -4,25 +4,20 @@
 	import Feature from '../components/Hero/Feature.svelte';
 	import Hero from '../components/Hero/Hero/Hero.svelte';
 	import InvoiceDemo from '../components/Hero/InvoiceDemo/InvoiceDemo.svelte';
-	import { page } from '$app/stores';
-
 
 	let screenwidth: number = 0;
+
+	export let data;
 </script>
 
 <svelte:head>
-	<title>Invoice-r</title>
-	<meta property="og:title" content="Invoice-r" />
-	<meta property="og:type" content="website" />
-	<meta name="author" content="Harry Kelleher" />
-	<meta name="article:published_time" content={new Date().toLocaleDateString()} />
-	<meta property="og:image" content="https://ibb.co/P6sq4Sh" />
-	<meta
-		property="og:description"
-		content="Create your invoice in seconds. No sign-ups, no strings attached - absolutely free."
-	/>
-	<meta property="og:url" content={$page.url.href} />
-	<meta property="og:locale" content="en_GB" />
+    <title>{data.ogMetadata.title}</title>
+    <meta property="og:title" content={data.ogMetadata.title} />
+    <meta property="og:type" content={data.ogMetadata.type} />
+    <meta property="og:description" content={data.ogMetadata.description} />
+    <meta property="og:image" content={data.ogMetadata.image} />
+    <meta property="og:url" content={data.ogMetadata.url} />
+    <meta property="og:locale" content={data.ogMetadata.locale} />
 </svelte:head>
 
 <svelte:window bind:innerWidth={screenwidth} />
