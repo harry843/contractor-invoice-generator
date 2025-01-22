@@ -1,6 +1,6 @@
 <script lang='ts'>
 	
-	import LoadingSpinner from "../../LoadingSpinner.svelte";
+	import LoadingSpinner from "../../Misc/LoadingSpinner.svelte";
 	import Button from "./Button.svelte";
 	
 	export let handleSubmit;
