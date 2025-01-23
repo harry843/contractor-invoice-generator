@@ -1,19 +1,10 @@
 <script lang="ts">
 	import DesktopMenu from './DesktopMenu/DesktopMenu.svelte';
-	import Logo from './Footer/icons/Logo.svelte';
 	import MobileMenu from './MobileMenu/MobileMenu.svelte';
 	import { browser } from '$app/environment';
+	import Logo from './Logo/Logo.svelte';
 
-	$: open = false;
 	let width = 0;
-
-	const handleOpen = () => {
-		open = !open;
-	};
-
-	const handleClose = () => {
-		open = false;
-	};
 
 	let darkMode = false;
 
@@ -51,7 +42,7 @@
 	>
 		<a href="/" class="flex items-center">
 			<Logo />
-			{#if width != 0 && width >= 375}
+			{#if width != 0 && width >= 300}
 				<span
 					class="px-3 self-center text-2xl font-semibold whitespace-nowrap font-customHeading dark:text-white hover:underline"
 					>Invoice-r</span
@@ -62,32 +53,8 @@
 			{#if width > 767}
 				<DesktopMenu {darkMode} {handleSwitchDarkMode} />
 			{:else if width != 0}
-				<MobileMenu {open} {handleClose} {darkMode} {handleSwitchDarkMode} />
+				<MobileMenu {darkMode} {handleSwitchDarkMode} />
 			{/if}
-			<button
-				data-collapse-toggle="navbar-sticky"
-				type="button"
-				class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-				aria-controls="navbar-sticky"
-				aria-expanded="false"
-				aria-label="button"
-				on:click={handleOpen}
-			>
-				<span class="sr-only"></span>
-				<svg
-					class="w-6 h-6"
-					aria-hidden="true"
-					aria-label="logo"
-					fill="currentColor"
-					viewBox="0 0 20 20"
-					xmlns="http://www.w3.org/2000/svg"
-					><path
-						fill-rule="evenodd"
-						d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-						clip-rule="evenodd"
-					/></svg
-				>
-			</button>
 		</div>
 	</div>
 

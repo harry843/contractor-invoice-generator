@@ -1,16 +1,3 @@
-<script lang="ts">
-	import { page } from '$app/stores';
-
-	$effect(() => {
-		if (typeof gtag !== 'undefined') {
-			gtag('config', 'MEASUREMENT_ID', {
-				page_title: document.title,
-				page_path: $page.url.pathname
-			});
-		}
-	})
-</script>
-
 <svelte:head>
 	<!-- Google Analytics tag -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-0G1TXCMMH7"></script>
