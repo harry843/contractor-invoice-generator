@@ -1,6 +1,7 @@
 <script>
 	import LinkedIn from './Logos/LinkedIn.svelte';
 	import Medium from './Logos/Medium.svelte';
+	import ProductHunt from './Logos/ProductHunt.svelte';
 	import Reddit from './Logos/Reddit.svelte';
 </script>
 
@@ -11,7 +12,7 @@
 	>
 		<!-- <a href="#" aria-label="logo" > -->
 		<div>
-			<Medium />
+			<ProductHunt />
 		</div>
 		<!-- </a> -->
 		<!-- <a href="#" aria-label="logo" class="sm:mr-5 sm:mb-5 lg:mb-0"> -->

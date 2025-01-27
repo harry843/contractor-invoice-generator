@@ -1,6 +1,6 @@
 <svg
 	xmlns="http://www.w3.org/2000/svg"
-	class="h-10 grayscale hover:grayscale-0 dark:grayscale-0 dark:hover:scale-105 dark:hover:transition dark:hover:duration-200"
+	class="mb-2.5 sm:m-0 h-10 grayscale hover:grayscale-0 dark:grayscale-0 dark:hover:scale-105 dark:hover:transition dark:hover:duration-200"
 	viewBox="0 0 264.58332 66.145835"
 	version="1.1"
 	id="svg1291"
