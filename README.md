@@ -1,6 +1,14 @@
-# sv
+[![MadeWithSvelte.com shield](https://madewithsvelte.com/storage/repo-shields/5567-shield.svg)](https://madewithsvelte.com/p/invoice-r/shield-link)
+# invoice-r
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+[Invoice-r](https://www.invoice-r.co.uk/) is a free invoice generator designed for freelancers and contractors to build invoices that look good in seconds. No credit card details, no sign-ups, no strings attached.
+
+Customise your invoices, download them as PDFs and enjoy the benefits of a privacy-first design with multiple currency support.
+
+Invoice-r is built using [`svelte`](https://github.com/sveltejs/cli), tailwindcss & tailwindpdf.
+
+## Request a feature
+Tell us how we could make the product more useful to you via our [FeatureBase](https://invoicer.featurebase.app/) page.
 
 ## Creating a project
 
@@ -11,7 +19,7 @@ If you're seeing this, you've probably already done this step. Congrats!
 npx sv create
 
 # create a new project in my-app
-npx sv create my-app
+npx sv create invoice-r
 ```
 
 ## Developing
