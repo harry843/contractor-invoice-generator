@@ -124,7 +124,8 @@ export default {
 			},
 
 			fontFamily: {
-				customHeading: ['Roboto Slab']
+				customHeading: ['Roboto Slab'],
+				madeWithSvelte: ['Dosis']
 			},
 
 			backgroundImage: {
